@@ -26,7 +26,7 @@ Unit Test Project                                     mstest           [C#], F#,
 xUnit Test Project                                    xunit            [C#], F#, VB      Test/xUnit
 ASP.NET Core Empty                                    web              [C#], F#          Web/Empty
 ASP.NET Core Web App (Model-View-Controller)          mvc              [C#], F#          Web/MVC
-IntelliTect Coalesce Web App Vue Template      coalescevue       [C#]              Web/MVC/Vue
+IntelliTect Coalesce Web App Vue Template     	      coalescevue      [C#]              Web/MVC/Vue
 ASP.NET Core Web App                                  razor            [C#]              Web/MVC/Razor Pages
 ASP.NET Core with Angular                             angular          [C#]              Web/MVC/SPA
 ASP.NET Core with React.js                            react            [C#]              Web/MVC/SPA
@@ -50,15 +50,29 @@ MVC ViewStart                                         viewstart                 
 
 If you don't specify a name, the template will infer one from the name of the folder you are in.
 
-At this point, you can open up Visual Studio, restore npm packages and nuget pacakges, and then run the app. However, you will probably want to do the following before running:
+At this point, you can open up Visual Studio and run the application. However, you will probably want to do the following before running:
 
 1. Create an initial data model by adding EF entity classes to the data project and the corresponding `DbSet<>` properties to `AppDbContext`. You will notice that this project includes a single model, `ApplicationUser`, to start with.
-1. Run the `coalesce` task in the Task Runner Explorer to trigger Coalesce's code generation (or run `dotnet coalesce` in the web project's path).
+1. Run `dotnet coalesce` to trigger Coalesce's code generation.
 1. Run `dotnet ef migrations add Init` (`Init` can be any name) in the data project to create the initial database migration.
 
 After you've started to grow content with your project, consider the following:
 
 * Remove the dummy authentication from `Startup.cs` and implement a proper authentication scheme.
 
-## Themeing
-Visit [Bootswatch](https://bootswatch.com/3/) to see the different choices available for themes.  To change themes, simply change the name of the imports in site.scss in the two marked locations.
+# Project Configuration
+This project is made with [vue-cli](https://github.com/vuejs/vue-cli). Additional plugins for `vue-cli` may be added as desired.
+
+You are **strongly** encouraged to read through at least the first few pages of the [vue-cli docs](https://github.com/vuejs/vue-cli/blob/dev/docs/README.md) before getting started on any development.
+
+Project structure of the Web project is as follows:
+* `/src` - Files that should be compiled into your application. CSS/SCSS, TypeScript, Vue SFCs, and so on.
+* `/public` - Static assets that should be served as files. Includes `index.html`, the root document of the application.
+* `/tests` - Jest unit tests.
+* `/wwwroot` - Target for compiled output.
+
+As always with a Coalesce project, run `dotnet coalesce` to perform code generation.
+
+During development, no special tooling is required to build your frontend code. `WebpackDevMiddleware` in ASP.NET Core will take care of that automatically when the application starts.
+
+Upon publish, a target defined in the `.csproj` file of the web project will build all static resources for production.
