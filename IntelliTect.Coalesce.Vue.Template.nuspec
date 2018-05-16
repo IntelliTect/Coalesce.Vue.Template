@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>IntelliTect.Coalesce.Vue.Template</id>
+    <version>1.0.0</version>
+    <title>Coalesce project template with the Vue generators</title>
+    <authors>IntelliTect</authors>
+    <owners>IntelliTect</owners>
+    <projectUrl>https://github.com/IntelliTect/Coalesce.Vue.Template</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/IntelliTect/Coalesce.Vue.Template/master/license.txt</licenseUrl>
+    <description>
+From a command prompt, run:
+
+CMD> dotnet new --install IntelliTect.Coalesce.Vue.Template
+
+Make a new folder and open it in a command prompt
+
+CMD> dotnet new coalescevue [-n Optional.Name]
+
+If you don't specify a name, the template will infer one from the name of the folder you are in.
+    </description>
+    <summary>Creates a new Coalesce application with the Vue generators. http://coalesce.intellitect.com/</summary>
+    <copyright>© IntelliTect 2018</copyright>
+    <language>en-US</language>
+    <tags>IntelliTect Coalesce Vue</tags>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <file src="content/**" exclude="**\bin\**\*;**\obj\**\*;**\*.user;**\*.lock.json;**\.DS_Store" target="content" />
+  </files>
+</package>
