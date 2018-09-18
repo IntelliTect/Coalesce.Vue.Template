@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>
-    <CoalesceVersion Condition="'$(CoalesceVersion)' == '' Or $(CoalesceVersion) == '*Undefined*'">2.1.0-alpha-310</CoalesceVersion>
+    <CoalesceVersion Condition="'$(CoalesceVersion)' == '' Or $(CoalesceVersion) == '*Undefined*'">2.2.0-alpha-509</CoalesceVersion>
   </PropertyGroup>
 </Project>

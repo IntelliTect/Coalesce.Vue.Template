@@ -23,7 +23,7 @@ export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
 
   private loadApplicationUsers = new ApplicationUserApiClient()
-    .$makeCaller("list", c => function(this: HelloWorld) { return c.list() })
+    .$makeCaller("list", function(this: HelloWorld, c) { return c.list() })
     .setConcurrency("cancel");
     // Alternatively, if 'this' is not needed in the load function:
     // .$makeCaller("list", c => () => c.list() )
