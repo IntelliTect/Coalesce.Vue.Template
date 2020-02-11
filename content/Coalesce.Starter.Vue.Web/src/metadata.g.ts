@@ -1,17 +1,19 @@
 import {
-  Domain, getEnumMeta, ModelType, ObjectType,
-  PrimitiveProperty, ModelReferenceNavigationProperty, ForeignKeyProperty, PrimaryKeyProperty
+  Domain, getEnumMeta, solidify, ModelType, ObjectType,
+  PrimitiveProperty, ForeignKeyProperty, PrimaryKeyProperty,
+  ModelCollectionNavigationProperty, ModelReferenceNavigationProperty
 } from 'coalesce-vue/lib/metadata'
 
 
 const domain: Domain = { enums: {}, types: {}, services: {} }
 export const ApplicationUser = domain.types.ApplicationUser = {
-  name: "applicationUser",
+  name: "ApplicationUser",
   displayName: "Application User",
   get displayProp() { return this.props.name }, 
   type: "model",
   controllerRoute: "ApplicationUser",
   get keyProp() { return this.props.applicationUserId }, 
+  behaviorFlags: 7,
   props: {
     applicationUserId: {
       name: "applicationUserId",
@@ -41,5 +43,7 @@ interface AppDomain extends Domain {
   services: {
   }
 }
+
+solidify(domain)
 
 export default domain as AppDomain

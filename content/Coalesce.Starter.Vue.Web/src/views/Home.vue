@@ -1,7 +1,14 @@
 <template>
   <div class="home">
+
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/coalesce-example">Coalesce Example</router-link>
+    </div>
+
     <!-- <img src="../assets/logo.png"> -->
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript Coalesce App"/>
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript Coalesce App" />
   </div>
 </template>
 

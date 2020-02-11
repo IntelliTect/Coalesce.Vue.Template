@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Security.Claims;
 
 namespace Coalesce.Starter.Vue.Web.Models
@@ -14,8 +13,19 @@ namespace Coalesce.Starter.Vue.Web.Models
     {
         public ApplicationUserDtoGen() { }
 
-        public int? ApplicationUserId { get; set; }
-        public string Name { get; set; }
+        private int? _ApplicationUserId;
+        private string _Name;
+
+        public int? ApplicationUserId
+        {
+            get => _ApplicationUserId;
+            set { _ApplicationUserId = value; Changed(nameof(ApplicationUserId)); }
+        }
+        public string Name
+        {
+            get => _Name;
+            set { _Name = value; Changed(nameof(Name)); }
+        }
 
         /// <summary>
         /// Map from the domain object to the properties of the current DTO instance.
@@ -40,8 +50,8 @@ namespace Coalesce.Starter.Vue.Web.Models
 
             if (OnUpdate(entity, context)) return;
 
-            entity.ApplicationUserId = (ApplicationUserId ?? entity.ApplicationUserId);
-            entity.Name = Name;
+            if (ShouldMapTo(nameof(ApplicationUserId))) entity.ApplicationUserId = (ApplicationUserId ?? entity.ApplicationUserId);
+            if (ShouldMapTo(nameof(Name))) entity.Name = Name;
         }
     }
 }

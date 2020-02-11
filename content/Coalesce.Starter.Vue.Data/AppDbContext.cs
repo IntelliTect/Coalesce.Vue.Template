@@ -40,7 +40,9 @@ namespace Coalesce.Starter.Vue.Data
         {
             try
             {
-                this.Database.Migrate();
+                // TODO: Switch to .Migrate() if migrations are used.
+                this.Database.EnsureCreated();
+                //this.Database.Migrate();
             }
             catch (InvalidOperationException e) when (e.Message == "No service for type 'Microsoft.EntityFrameworkCore.Migrations.IMigrator' has been registered.")
             {
