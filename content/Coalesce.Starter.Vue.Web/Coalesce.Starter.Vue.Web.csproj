@@ -25,16 +25,4 @@
     <DotNetCliToolReference Include="IntelliTect.Coalesce.Tools" Version="$(CoalesceVersion)" />
   </ItemGroup>
 
-  <Target Name="PublishRunWebpack" BeforeTargets="ComputeFilesToPublish">
-    <Message Importance="high" Text="Building for production with vue-cli. Configure this in your .csproj." />
-    <Exec Command="npm run-script build" />
-    <ItemGroup>
-      <DistFiles Include="wwwroot\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>%(DistFiles.Identity)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-    </ItemGroup>
-  </Target>
-
 </Project>
