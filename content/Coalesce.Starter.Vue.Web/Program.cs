@@ -37,9 +37,13 @@ namespace Coalesce.Starter.Vue.Web
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.AddConsole();
+                })
                 .UseWebRoot("wwwroot") // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup.
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((builder, config) => config 
+                .ConfigureAppConfiguration((builder, config) => config
                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddEnvironmentVariables()
                 )
