@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 
 namespace Coalesce.Starter.Vue.Web
 {
@@ -20,26 +18,22 @@ namespace Coalesce.Starter.Vue.Web
             {
                 var services = scope.ServiceProvider;
 
-                try
-                {
-                    // Run database migrations.
-                    AppDbContext db = services.GetService<AppDbContext>();
-                    db.Initialize();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
-                }
+                // Run database migrations.
+                AppDbContext db = services.GetService<AppDbContext>();
+                db.Initialize();
             }
             host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.AddConsole();
+                })
                 .UseWebRoot("wwwroot") // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup.
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((builder, config) => config 
+                .ConfigureAppConfiguration((builder, config) => config
                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddEnvironmentVariables()
                 )
