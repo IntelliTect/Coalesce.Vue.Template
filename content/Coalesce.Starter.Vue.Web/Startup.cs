@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Coalesce.Starter.Vue.Web
 {
@@ -40,7 +42,18 @@ namespace Coalesce.Starter.Vue.Web
 
             services.AddCoalesce<AppDbContext>();
 
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services
+                .AddMvc(options => options.EnableEndpointRouting = false)
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+
+                    var resolver = options.SerializerSettings.ContractResolver;
+                    if (resolver != null) (resolver as DefaultContractResolver).NamingStrategy = null;
+
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie();
@@ -53,12 +66,14 @@ namespace Coalesce.Starter.Vue.Web
             {
                 app.UseDeveloperExceptionPage();
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true,
                     // Use a slightly-tweaked version of vue-cli's webpack config to work around a few bugs.
                     ConfigFile = "webpack.config.aspnetcore-hmr.js",
                 });
+#pragma warning restore CS0618 // Type or member is obsolete
 
 
                 // Dummy authentication for initial development.
