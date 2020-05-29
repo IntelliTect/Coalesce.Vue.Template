@@ -4,7 +4,7 @@
 
     <CoalesceVersion Condition="'$(CoalesceVersion)' == '' Or $(CoalesceVersion) == '*Undefined*'">2.2.0-alpha.20200508.1</CoalesceVersion>
 
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
