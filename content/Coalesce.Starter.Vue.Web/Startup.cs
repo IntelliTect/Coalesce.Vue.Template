@@ -1,19 +1,21 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 using Coalesce.Starter.Vue.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using IntelliTect.Coalesce;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace Coalesce.Starter.Vue.Web
 {
@@ -48,10 +50,7 @@ namespace Coalesce.Starter.Vue.Web
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Formatting = Formatting.Indented;
-
-                    var resolver = options.SerializerSettings.ContractResolver;
-                    if (resolver != null) (resolver as DefaultContractResolver).NamingStrategy = null;
-
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
 
@@ -76,7 +75,7 @@ namespace Coalesce.Starter.Vue.Web
 #pragma warning restore CS0618 // Type or member is obsolete
 
 
-                // Dummy authentication for initial development.
+                // TODO: Dummy authentication for initial development.
                 // Replace this with ASP.NET Core Identity, Windows Authentication, or some other auth scheme.
                 // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
                 app.Use(async (context, next) =>
@@ -91,22 +90,44 @@ namespace Coalesce.Starter.Vue.Web
                 // End Dummy Authentication.
             }
 
-            app.UseStaticFiles();
-            app.UseMvc(routes =>
+            // Routing
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            var containsFileHashRegex = new Regex(@"\.[0-9a-fA-F]{8}\.[^\.]*$", RegexOptions.Compiled);
+            app.UseStaticFiles(new StaticFileOptions
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                OnPrepareResponse = ctx =>
+                {
+                    // vue-cli puts 8-hex-char hashes before the file extension.
+                    // Use this to determine if we can send a long-term cache duration.
+                    if (containsFileHashRegex.IsMatch(ctx.File.Name))
+                    {
+                        ctx.Context.Response.GetTypedHeaders().CacheControl =
+                            new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromDays(30) };
+                    }
+                }
             });
 
-            app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
+            // For all requests that aren't to static files, disallow caching.
+            app.Use(async (context, next) =>
             {
-                builder.UseMvc(routes =>
-                {
-                    routes.MapSpaFallbackRoute(
-                        name: "spa-fallback",
-                        defaults: new { controller = "Home", action = "Index" });
-                });
+                context.Response.GetTypedHeaders().CacheControl =
+                    new CacheControlHeaderValue { NoCache = true, NoStore = true, };
+
+                await next();
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+
+                // API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
+                endpoints.Map("api/{**any}", async ctx => ctx.Response.StatusCode = StatusCodes.Status404NotFound);
+
+                endpoints.MapFallbackToController("Index", "Home");
             });
         }
     }

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Coalesce.Starter.Vue.Web
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -27,16 +27,18 @@ namespace Coalesce.Starter.Vue.Web
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseWebRoot("wwwroot") // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup.
+                .ConfigureAppConfiguration((builder, config) =>
+                {
+                    config
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddEnvironmentVariables();
+                })
                 .ConfigureLogging(logging =>
                 {
                     logging.AddConsole();
                 })
-                .UseWebRoot("wwwroot") // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup.
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((builder, config) => config
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                    .AddEnvironmentVariables()
-                )
                 .Build();
     }
 }

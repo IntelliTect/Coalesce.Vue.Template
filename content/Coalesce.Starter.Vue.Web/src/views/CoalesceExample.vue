@@ -1,21 +1,19 @@
 <template>
-
-  <v-container fluid class="mx-3 white elevation-1" style="max-width: calc(100vw - 32px)">
-
+  <v-container class="white elevation-1" style="max-width: 900px">
     <v-btn x-large to="/admin/ApplicationUser" color="primary">
       Application User Admin Table
     </v-btn>
 
     <v-divider class="mt-4"></v-divider>
 
-    Below is a very simple example of using components from coalesce-vue-vuetify to 
-    display and edit properties of a model. Autosave is enabled.
+    Below is a very simple example of using components from coalesce-vue-vuetify
+    to display and edit properties of a model. Autosave is enabled.
 
-    <c-loader-status 
-      #default 
+    <c-loader-status
+      #default
       :loaders="{
         'no-error-content no-intial-content': [user.$load],
-        '': [user.$save],
+        '': [user.$save]
       }"
     >
       <div class="title py-2">
@@ -27,18 +25,16 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
-  import { ApplicationUserViewModel } from '@/viewmodels.g';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { ApplicationUserViewModel } from "@/viewmodels.g";
 
 @Component
-export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
-
+export default class CoalesceExample extends Vue {
   private user = new ApplicationUserViewModel();
 
-  async mounted() {
+  async created() {
     await this.user.$load(1);
-    this.user.$startAutoSave(this, { wait: 500 })
+    this.user.$startAutoSave(this, { wait: 500 });
   }
 }
 </script>

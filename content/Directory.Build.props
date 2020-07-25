@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
 
-    <CoalesceVersion Condition="'$(CoalesceVersion)' == '' Or $(CoalesceVersion) == '*Undefined*'">2.2.0-alpha.20200508.1</CoalesceVersion>
+    <CoalesceVersion Condition="'$(CoalesceVersion)' == '' Or $(CoalesceVersion) == '*Undefined*'">3.0.0-alpha.20200717.1</CoalesceVersion>
 
     <LangVersion>8.0</LangVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
