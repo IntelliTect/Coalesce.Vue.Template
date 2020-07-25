@@ -26,7 +26,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <router-link to="/" class="white--text" style="text-decoration: none">
-          Coalesce Vue Demo
+          Coalesce Vue Template
         </router-link>
       </v-toolbar-title>
     </v-app-bar>
