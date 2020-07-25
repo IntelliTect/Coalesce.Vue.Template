@@ -1,6 +1,6 @@
 <template>
   <v-app id="vue-app">
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
         <v-list-item link to="/">
           <v-list-item-action>
@@ -22,7 +22,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="primary" dark clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <router-link to="/" class="white--text" style="text-decoration: none">

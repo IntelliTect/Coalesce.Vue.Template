@@ -49,9 +49,10 @@
             <v-divider class="my-3"></v-divider>
             <router-link
               :to="{ name: 'coalesce-example' }"
-              class="display-1 font-weight-light"
-              >View Simple Custom Page Example</router-link
+              class="headline font-weight-light"
             >
+              View a Simple Custom Page Example
+            </router-link>
           </v-card-text>
         </v-card>
 
