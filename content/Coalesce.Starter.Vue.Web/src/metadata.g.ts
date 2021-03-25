@@ -20,6 +20,7 @@ export const ApplicationUser = domain.types.ApplicationUser = {
       displayName: "Application User Id",
       type: "number",
       role: "primaryKey",
+      hidden: 3,
     },
     name: {
       name: "name",

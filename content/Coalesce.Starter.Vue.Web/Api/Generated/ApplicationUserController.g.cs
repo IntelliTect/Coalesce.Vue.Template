@@ -69,51 +69,5 @@ namespace Coalesce.Starter.Vue.Web.Api
             IBehaviors<Coalesce.Starter.Vue.Data.Models.ApplicationUser> behaviors,
             IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource)
             => DeleteImplementation(id, new DataSourceParameters(), dataSource, behaviors);
-
-        /// <summary>
-        /// Downloads CSV of ApplicationUserDtoGen
-        /// </summary>
-        [HttpGet("csvDownload")]
-        [Authorize]
-        public virtual Task<FileResult> CsvDownload(
-            ListParameters parameters,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource)
-            => CsvDownloadImplementation(parameters, dataSource);
-
-        /// <summary>
-        /// Returns CSV text of ApplicationUserDtoGen
-        /// </summary>
-        [HttpGet("csvText")]
-        [Authorize]
-        public virtual Task<string> CsvText(
-            ListParameters parameters,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource)
-            => CsvTextImplementation(parameters, dataSource);
-
-        /// <summary>
-        /// Saves CSV data as an uploaded file
-        /// </summary>
-        [HttpPost("csvUpload")]
-        [Authorize]
-        public virtual Task<IEnumerable<ItemResult>> CsvUpload(
-            IFormFile file,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource,
-            IBehaviors<Coalesce.Starter.Vue.Data.Models.ApplicationUser> behaviors,
-            bool hasHeader = true)
-            => CsvUploadImplementation(file, dataSource, behaviors, hasHeader);
-
-        /// <summary>
-        /// Saves CSV data as a posted string
-        /// </summary>
-        [HttpPost("csvSave")]
-        [Authorize]
-        public virtual Task<IEnumerable<ItemResult>> CsvSave(
-            string csv,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource,
-            IBehaviors<Coalesce.Starter.Vue.Data.Models.ApplicationUser> behaviors,
-            bool hasHeader = true)
-            => CsvSaveImplementation(csv, dataSource, behaviors, hasHeader);
-
-        // Methods from data class exposed through API Controller.
     }
 }
