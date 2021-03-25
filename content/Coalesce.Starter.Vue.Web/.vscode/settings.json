@@ -2,8 +2,11 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.useEditorConfig": true,
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "cSpell.enableFiletypes": ["vue"]
+  "cSpell.enableFiletypes": ["vue"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "vetur.validation.template": false,
+  "eslint.validate": ["javascript", "typescript", "vue"]
 }

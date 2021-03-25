@@ -1,7 +1,7 @@
 <template>
   <v-app id="vue-app">
     <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list dense>
+      <v-list>
         <v-list-item link to="/">
           <v-list-item-action>
             <v-icon>fas fa-home</v-icon>
@@ -22,8 +22,8 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="primary" dark clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar app color="primary" dark dense clipped-left>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         <router-link to="/" class="white--text" style="text-decoration: none">
           Coalesce Vue Template
@@ -35,8 +35,8 @@
       <transition
         name="router-transition"
         mode="out-in"
-        @enter="routerViewOnEnter"
         appear
+        @enter="routerViewOnEnter"
       >
         <!-- https://stackoverflow.com/questions/52847979/what-is-router-view-key-route-fullpath -->
         <router-view ref="routerView" :key="$route.path" />
@@ -50,7 +50,7 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class App extends Vue {
   drawer: boolean | null = null;

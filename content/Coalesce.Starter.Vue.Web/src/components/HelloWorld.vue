@@ -26,14 +26,15 @@
                 do so.
               </li>
               <li>
-                <i class="fas fa-star"></i>
+                <i class="fas fa-star" />
                 <strong>Implement a proper authentication mechanism</strong> in
                 Startup.cs and remove the existing dummy authentication. Options
                 include
                 <a
                   href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity"
-                  >Identity</a
                 >
+                  Identity
+                </a>
                 and Windows Authentication (enabled in the Debug tab of the
                 properties of your Web project.)
 
@@ -46,7 +47,7 @@
                 begin development.
               </li>
             </ol>
-            <v-divider class="my-3"></v-divider>
+            <v-divider class="my-3" />
             <router-link
               :to="{ name: 'coalesce-example' }"
               class="headline font-weight-light"
@@ -57,9 +58,7 @@
         </v-card>
 
         <v-card class="mt-5">
-          <v-card-title>
-            Admin Page Links
-          </v-card-title>
+          <v-card-title> Admin Page Links </v-card-title>
           <v-card-text class="black--text">
             <v-simple-table dense>
               <thead>
@@ -77,7 +76,7 @@
                     <router-link
                       :to="{
                         name: 'coalesce-admin-list',
-                        params: { type: type.name }
+                        params: { type: type.name },
                       }"
                     >
                       Table
@@ -92,9 +91,7 @@
 
       <v-col cols="12" lg="5">
         <v-card>
-          <v-card-title>
-            Quick Links
-          </v-card-title>
+          <v-card-title> Quick Links </v-card-title>
           <v-card-text class="black--text">
             <h2 class="headline font-weight-light mb-3">Documentation</h2>
             <ul>
@@ -122,7 +119,7 @@
                 >
               </li>
             </ul>
-            <v-divider class="my-3"></v-divider>
+            <v-divider class="my-3" />
             <h2 class="headline font-weight-light mb-3">Resources</h2>
             <ul>
               <li>
@@ -158,7 +155,7 @@ import $metadata from "@/metadata.g";
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
 
-  adminTypes = Object.values($metadata.types).filter(t => t.type == "model");
+  adminTypes = Object.values($metadata.types).filter((t) => t.type == "model");
 }
 </script>
 

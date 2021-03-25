@@ -17,7 +17,7 @@ namespace Coalesce.Starter.Vue.Web.Controllers
         // Prevent caching of this route.
         // The served file will contain the links to compiled js/css that include hashes in the filenames.
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Index(
+        public IActionResult Index(
             [FromServices] IWebHostEnvironment hostingEnvironment
         )
         {

@@ -16,6 +16,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Coalesce.Starter.Vue.Web
 {
@@ -34,7 +35,7 @@ namespace Coalesce.Starter.Vue.Web
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionName = "DefaultConnection";
+            const string connectionName = "DefaultConnection";
             string connString = Configuration.GetConnectionString(connectionName);
 
             // Add Entity Framework services to the services
@@ -125,7 +126,7 @@ namespace Coalesce.Starter.Vue.Web
                 endpoints.MapControllers();
 
                 // API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
-                endpoints.Map("api/{**any}", async ctx => ctx.Response.StatusCode = StatusCodes.Status404NotFound);
+                endpoints.Map("api/{**any}", ctx => { ctx.Response.StatusCode = StatusCodes.Status404NotFound; return Task.CompletedTask; });
 
                 endpoints.MapFallbackToController("Index", "Home");
             });

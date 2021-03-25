@@ -1,4 +1,4 @@
 ﻿declare module "*.vue" {
-    import VueConstructor from "vue";
-    export default VueConstructor;
+  import VueConstructor from "vue";
+  export default VueConstructor;
 }
