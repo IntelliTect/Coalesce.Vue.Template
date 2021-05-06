@@ -61,9 +61,9 @@ After you've started to grow content with your project, consider the following:
 * Remove the dummy authentication from `Startup.cs` and implement a proper authentication scheme.
 
 # Project Configuration
-This project is made with [vue-cli](https://github.com/vuejs/vue-cli). Additional plugins for `vue-cli` may be added as desired.
+This project is made with [vue-cli](https://cli.vuejs.org). Additional plugins for `vue-cli` may be added as desired.
 
-You are **strongly** encouraged to read through at least the first few pages of the [vue-cli docs](https://github.com/vuejs/vue-cli/blob/dev/docs/README.md) before getting started on any development.
+You are **strongly** encouraged to read through at least the first few pages of the [vue-cli docs](https://cli.vuejs.org/guide/) before getting started on any development.
 
 Project structure of the Web project is as follows:
 * `/src` - Files that should be compiled into your application. CSS/SCSS, TypeScript, Vue SFCs, and so on.
