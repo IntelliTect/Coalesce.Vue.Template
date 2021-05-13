@@ -1,0 +1,21 @@
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/content/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    ignore:
+      # Should be derived from $CoalesceVersion.
+      - dependency-name: "IntelliTect.Coalesce"
+  - package-ecosystem: "npm"
+    directory: "/content/Coalesce.Starter.Vue.Web/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    ignore:
+      # Should stay in sync with NuGet package version.
+      - dependency-name: "coalesce-vue"
+      - dependency-name: "coalesce-vue-vuetify"
