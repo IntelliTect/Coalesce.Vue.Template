@@ -16,14 +16,12 @@ public class HomeController : Controller
     )
     {
         var fileInfo = hostingEnvironment.WebRootFileProvider.GetFileInfo("index.html");
-
         if (!fileInfo.Exists)
         {
-            return Ok($"{fileInfo.PhysicalPath} not found. HMR build is probably still running for the first time. Keep refreshing...");
+            return Ok($"{fileInfo.Name} not found. HMR build is probably still running for the first time. Keep refreshing...");
         }
 
-        var readStream = fileInfo.CreateReadStream();
-        return File(readStream, "text/html");
+        return File(fileInfo.CreateReadStream(), "text/html");
     }
 
     public IActionResult Error()

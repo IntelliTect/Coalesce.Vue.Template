@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions { 
     Args = args,
-    // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup:
+    // Explicit declaration prevents ASP.NET Core from erroring if wwwroot doesn't exist at startup:
     WebRootPath = "wwwroot" 
 });
 
