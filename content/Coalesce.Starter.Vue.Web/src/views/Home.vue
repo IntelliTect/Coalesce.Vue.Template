@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript Coalesce App" />
+    <HelloWorld msg="Welcome to your new Vue.js Coalesce application!" />
   </div>
 </template>
 

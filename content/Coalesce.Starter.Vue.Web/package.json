@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
-    "coalesce-vue": "3.0.0-alpha.20210324.5",
-    "coalesce-vue-vuetify": "3.0.0-alpha.20210324.5",
+    "coalesce-vue": "3.0.0-alpha.20211108.3",
+    "coalesce-vue-vuetify": "3.0.0-alpha.20211108.3",
     "typeface-roboto": "1.1.13",
     "vue": "2.6.12",
     "vue-class-component": "7.2.6",
@@ -57,7 +57,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
+    "not ie <= 11"
   ],
   "jest": {
     "moduleFileExtensions": [

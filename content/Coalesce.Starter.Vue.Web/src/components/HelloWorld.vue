@@ -1,13 +1,10 @@
 <template>
   <v-container>
-    <h1>
-      {{ msg }}
-    </h1>
     <v-row>
       <v-col cols="12" lg="7">
         <v-card>
           <v-card-title>
-            Welcome to your new Coalesce application!
+            {{ msg }}
           </v-card-title>
           <v-card-text class="black--text">
             <h2 class="headline font-weight-light mb-3">

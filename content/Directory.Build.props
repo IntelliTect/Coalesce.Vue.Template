@@ -1,9 +1,10 @@
 <Project>
-  <PropertyGroup>
-    <CoalesceVersion Condition="'$(CoalesceVersion)' == '' Or $(CoalesceVersion) == '*Undefined*'">3.0.0-alpha.20210324.5</CoalesceVersion>
+	<PropertyGroup>
+		<CoalesceVersion Condition="'$(CoalesceVersion)' == '' Or $(CoalesceVersion) == '*Undefined*'">3.0.0-alpha.20211108.3</CoalesceVersion>
 
-    <LangVersion>9.0</LangVersion>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-  </PropertyGroup>
+		<LangVersion>10.0</LangVersion>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+		<ImplicitUsings>true</ImplicitUsings>
+	</PropertyGroup>
 </Project>

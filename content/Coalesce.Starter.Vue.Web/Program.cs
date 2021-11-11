@@ -1,44 +1,143 @@
 using Coalesce.Starter.Vue.Data;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using IntelliTect.Coalesce;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Security.Claims;
+using System.Text.RegularExpressions;
 
-namespace Coalesce.Starter.Vue.Web
-{
-    public static class Program
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions { 
+    Args = args,
+    // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup:
+    WebRootPath = "wwwroot" 
+});
+
+var configuration = builder.Configuration;
+var services = builder.Services;
+
+
+#region Configure Services
+
+builder.Logging.AddConsole();
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+services.AddSingleton<IConfiguration>(configuration);
+services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+services.AddCoalesce<AppDbContext>();
+
+services
+    .AddMvc()
+    .AddNewtonsoftJson(options =>
     {
-        public static void Main(string[] args)
-        {
-            var host = BuildWebHost(args);
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.Formatting = Formatting.Indented;
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+    });
 
-            // https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/#move-database-initialization-code
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie();
 
-                // Run database migrations.
-                AppDbContext db = services.GetService<AppDbContext>();
-                db.Initialize();
-            }
-            host.Run();
-        }
+#endregion
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseWebRoot("wwwroot") // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup.
-                .ConfigureAppConfiguration((builder, config) =>
-                {
-                    config
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                        .AddEnvironmentVariables();
-                })
-                .ConfigureLogging(logging =>
-                {
-                    logging.AddConsole();
-                })
-                .UseStartup<Startup>()
-                .Build();
-    }
+
+
+#region Configure HTTP Pipeline
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+
+#pragma warning disable CS0618 // Type or member is obsolete
+    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+    {
+        HotModuleReplacement = true,
+        // Use a slightly-tweaked version of vue-cli's webpack config to work around a few bugs.
+        ConfigFile = "webpack.config.aspnetcore-hmr.js",
+    });
+#pragma warning restore CS0618 // Type or member is obsolete
+
+
+    // TODO: Dummy authentication for initial development.
+    // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.
+    // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
+    app.Use(async (context, next) =>
+    {
+        Claim[] claims = new[] { new Claim(ClaimTypes.Name, "developmentuser") };
+
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
+
+        await next.Invoke();
+    });
+    // End Dummy Authentication.
 }
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+var containsFileHashRegex = new Regex(@"\.[0-9a-fA-F]{8}\.[^\.]*$", RegexOptions.Compiled);
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        // vue-cli puts 8-hex-char hashes before the file extension.
+        // Use this to determine if we can send a long-term cache duration.
+        if (containsFileHashRegex.IsMatch(ctx.File.Name))
+        {
+            ctx.Context.Response.GetTypedHeaders().CacheControl =
+                new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromDays(30) };
+        }
+    }
+});
+
+// For all requests that aren't to static files, disallow caching.
+app.Use(async (context, next) =>
+{
+    context.Response.GetTypedHeaders().CacheControl =
+        new CacheControlHeaderValue { NoCache = true, NoStore = true, };
+
+    await next();
+});
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+
+    // API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
+    endpoints.Map("api/{**any}", ctx => { ctx.Response.StatusCode = StatusCodes.Status404NotFound; return Task.CompletedTask; });
+
+    endpoints.MapFallbackToController("Index", "Home");
+});
+
+#endregion
+
+
+
+#region Launch
+
+// Initialize/migrate database.
+using (var scope = app.Services.CreateScope())
+{
+    var serviceScope = scope.ServiceProvider;
+
+    // Run database migrations.
+    using var db = serviceScope.GetService<AppDbContext>();
+    db.Initialize();
+}
+
+app.Run();
+
+#endregion
