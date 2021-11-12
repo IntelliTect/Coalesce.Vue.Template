@@ -23,7 +23,8 @@ var services = builder.Services;
 
 #region Configure Services
 
-builder.Logging.AddConsole().AddFilter("Microsoft", LogLevel.Warning).AddFilter("Yarp", LogLevel.Warning).AddFilter("AspNetCore", LogLevel.Warning);
+builder.Logging.AddConsole();
+    //.AddFilter("Microsoft", LogLevel.Warning).AddFilter("Yarp", LogLevel.Warning).AddFilter("AspNetCore", LogLevel.Warning);
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
@@ -35,14 +36,7 @@ services.AddDbContext<AppDbContext>(options =>
 services.AddCoalesce<AppDbContext>();
 
 // spa
-services.AddHttpForwarder();
-services.AddSingleton<SpaProxyLaunchManager>();
-services.Configure<SpaDevelopmentServerOptions>(c =>
-{
-    c.WorkingDirectory = builder.Environment.ContentRootPath;
-    c.ClientUrl = "http://localhost:8080";
-    c.LaunchCommand = "npm run dev";
-});
+
 // end spa
 
 services
@@ -70,12 +64,26 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
-    //app.UseSpa(spa =>
-    //{
-    //    spa.Options.SourcePath = ".";
-    //    spa.Options.DevServerPort = 8080;
-    //    spa.UseReactDevelopmentServer(npmScript: "dev");
-    //});
+    app.UseWhen(c => c.Request.Path.StartsWithSegments("/vite_hmr"), app =>
+    {
+        //app.Use(async (context, next) =>
+        //{
+        //    // Vite will redirect "/" to its configured base path.
+        //    if (context.Request.Path == "/")
+        //    {
+        //        context.Request.Path = "/vite_hmr/";
+        //    }
+        //    await next();
+
+        //});
+        app.UseSpa(spa =>
+        {
+            spa.Options.SourcePath = ".";
+            //spa.Options.DevServerPort = 8080;
+            //spa.UseReactDevelopmentServer(npmScript: "dev");
+            ReactDevelopmentServerMiddleware.Attach(spa, "dev");
+        });
+    });
 
     // TODO: Dummy authentication for initial development.
     // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.
@@ -92,7 +100,6 @@ if (app.Environment.IsDevelopment())
     // End Dummy Authentication.
 }
 
-app.UseSpaYarp();
 
 app.UseRouting();
 
