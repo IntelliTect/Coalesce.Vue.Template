@@ -4,12 +4,5 @@ module.exports = {
     "@babel/plugin-proposal-nullish-coalescing-operator",
     "@babel/plugin-syntax-dynamic-import",
   ],
-  presets: [
-    [
-      "@vue/app",
-      {
-        useBuiltIns: "entry",
-      },
-    ],
-  ],
+  presets: ["@babel/preset-env"],
 };

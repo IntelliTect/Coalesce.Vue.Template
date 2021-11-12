@@ -1,8 +1,9 @@
+using AspNetCore.SpaYarp;
 using Coalesce.Starter.Vue.Data;
 using IntelliTect.Coalesce;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -22,7 +23,7 @@ var services = builder.Services;
 
 #region Configure Services
 
-builder.Logging.AddConsole();
+builder.Logging.AddConsole().AddFilter("Microsoft", LogLevel.Warning).AddFilter("Yarp", LogLevel.Warning).AddFilter("AspNetCore", LogLevel.Warning);
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
@@ -32,6 +33,17 @@ services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 services.AddCoalesce<AppDbContext>();
+
+// spa
+services.AddHttpForwarder();
+services.AddSingleton<SpaProxyLaunchManager>();
+services.Configure<SpaDevelopmentServerOptions>(c =>
+{
+    c.WorkingDirectory = builder.Environment.ContentRootPath;
+    c.ClientUrl = "http://localhost:8080";
+    c.LaunchCommand = "npm run dev";
+});
+// end spa
 
 services
     .AddMvc()
@@ -58,15 +70,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
-#pragma warning disable CS0618 // Type or member is obsolete
-    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-    {
-        HotModuleReplacement = true,
-        // Use a slightly-tweaked version of vue-cli's webpack config to work around a few bugs.
-        ConfigFile = "webpack.config.aspnetcore-hmr.js",
-    });
-#pragma warning restore CS0618 // Type or member is obsolete
-
+    //app.UseSpa(spa =>
+    //{
+    //    spa.Options.SourcePath = ".";
+    //    spa.Options.DevServerPort = 8080;
+    //    spa.UseReactDevelopmentServer(npmScript: "dev");
+    //});
 
     // TODO: Dummy authentication for initial development.
     // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.
@@ -82,6 +91,8 @@ if (app.Environment.IsDevelopment())
     });
     // End Dummy Authentication.
 }
+
+app.UseSpaYarp();
 
 app.UseRouting();
 
