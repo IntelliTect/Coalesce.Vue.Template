@@ -25,6 +25,18 @@ async function writeHtml(server: ViteDevServer) {
   }
 }
 
+// TODO: Replace code here with coalesce-vue/vite stuff (our custom plugin, and cert stuff)
+/*
+TODO: Typescript type checking:
+
+vite-plugin-checker:
+  VLS: doesn't allow for customizing of settings (Issue #85). Works absolutely perfectly if I just flip bits to false in `initParams`. Maybe a PR is in order here?
+  vue-tsc: also not customizable.
+But both seem to have no way of turning off template validation, which is hugely problematic for Coalesce apps in how picky they are about nulls.
+We want validation of <script lang="ts">, but not validation of <template>. Or maybe that's a backwards way of thinking?
+The problem is that with vue2, we can't use typescript syntax in templates.
+We can in vue3. Maybe the option is to old off on vite until we can go to vue3?
+*/
 export default defineConfig(async ({ command, mode }) => ({
   build: {
     outDir: "wwwroot",
