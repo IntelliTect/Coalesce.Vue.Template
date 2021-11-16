@@ -5,16 +5,18 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions { 
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
     Args = args,
     // Explicit declaration prevents ASP.NET Core from erroring if wwwroot doesn't exist at startup:
-    WebRootPath = "wwwroot" 
+    WebRootPath = "wwwroot"
 });
 
 var configuration = builder.Configuration;
@@ -23,8 +25,10 @@ var services = builder.Services;
 
 #region Configure Services
 
-builder.Logging.AddConsole();
-    //.AddFilter("Microsoft", LogLevel.Warning).AddFilter("Yarp", LogLevel.Warning).AddFilter("AspNetCore", LogLevel.Warning);
+builder.Logging
+    .AddConsole()
+    .AddFilter<ConsoleLoggerProvider>("Microsoft.AspNetCore.Hosting.Diagnostics", LogLevel.Warning);
+
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
@@ -34,10 +38,6 @@ services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 services.AddCoalesce<AppDbContext>();
-
-// spa
-
-// end spa
 
 services
     .AddMvc()
@@ -64,26 +64,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
-    app.UseWhen(c => c.Request.Path.StartsWithSegments("/vite_hmr"), app =>
-    {
-        //app.Use(async (context, next) =>
-        //{
-        //    // Vite will redirect "/" to its configured base path.
-        //    if (context.Request.Path == "/")
-        //    {
-        //        context.Request.Path = "/vite_hmr/";
-        //    }
-        //    await next();
-
-        //});
-        app.UseSpa(spa =>
-        {
-            spa.Options.SourcePath = ".";
-            //spa.Options.DevServerPort = 8080;
-            //spa.UseReactDevelopmentServer(npmScript: "dev");
-            ReactDevelopmentServerMiddleware.Attach(spa, "dev");
-        });
-    });
+    app.UseViteDevelopmentServer();
 
     // TODO: Dummy authentication for initial development.
     // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.

@@ -8,5 +8,6 @@
     "source.fixAll.eslint": true
   },
   "vetur.validation.template": false,
-  "eslint.validate": ["javascript", "typescript", "vue"]
+  "eslint.validate": ["javascript", "typescript", "vue"],
+  "cSpell.words": ["Vite"]
 }
