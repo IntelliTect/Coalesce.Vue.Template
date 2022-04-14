@@ -11,55 +11,37 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/runtime": "7.16.3",
     "@fortawesome/fontawesome-free": "5.15.4",
-    "coalesce-vue": "3.0.0-alpha.20211115.1",
-    "coalesce-vue-vuetify": "3.0.0-alpha.20211115.1",
+    "coalesce-vue": "3.0.0-alpha.20220412.6",
+    "coalesce-vue-vuetify": "3.0.0-alpha.20220412.6",
     "typeface-roboto": "1.1.13",
-    "vue": "2.6.12",
+    "vue": "2.6.14",
     "vue-class-component": "7.2.6",
     "vue-property-decorator": "9.1.2",
     "vue-router": "3.5.1",
-    "vuetify": "2.4.8"
+    "vuetify": "2.6.4"
   },
   "devDependencies": {
-    "@babel/core": "7.16.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "7.13.8",
-    "@babel/plugin-proposal-optional-chaining": "7.13.12",
-    "@babel/plugin-syntax-dynamic-import": "7.8.3",
-    "@types/jest": "26.0.21",
+    "@babel/preset-env": "^7.16.4",
+    "@types/jest": "27.4.1",
     "@typescript-eslint/eslint-plugin": "5.4.0",
-    "@typescript-eslint/parser": "5.4.0",
-    "@vue/eslint-config-prettier": "6.0.0",
-    "@vue/eslint-config-typescript": "9.0.1",
+    "@vue/eslint-config-prettier": "7.0.0",
+    "@vue/eslint-config-typescript": "10.0.0",
     "@vue/test-utils": "1.1.3",
+    "@vue/vue2-jest": "^27.0.0-alpha.4",
+    "esbuild-sass-plugin": "^2.2.6",
     "eslint": "8.2.0",
-    "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-vue": "8.0.3",
     "jest": "27.3.1",
-    "lint-staged": "12.0.2",
     "prettier": "2.4.1",
-    "sass": "1.32.8",
-    "ts-jest": "27.0.7",
-    "typescript": "4.2.3",
-    "vite": "^2.6.14",
-    "vite-plugin-checker": "./vite-plugin-checker-ascott18.tgz",
-    "vite-plugin-vue2": "1.9.0",
+    "sass": "1.50.0",
+    "ts-jest": "27.1.4",
+    "typescript": "4.4.4",
+    "unplugin-vue-components": "^0.19.2",
+    "vite": "2.9.4",
+    "vite-plugin-checker": "0.4.6",
+    "vite-plugin-vue2": "1.9.3",
     "vls": "0.7.6",
-    "vue-template-compiler": "2.6.12"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 11"
-  ],
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "vue-template-compiler": "2.6.14"
   }
 }

@@ -13,7 +13,8 @@
     "baseUrl": ".",
     "types": ["node", "jest"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "vuetify/lib": ["node_modules/vuetify/types/lib"]
     }
   },
   "include": [

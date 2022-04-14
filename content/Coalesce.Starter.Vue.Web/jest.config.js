@@ -1,17 +1,18 @@
 module.exports = {
-  moduleFileExtensions: [
-    "js",
-    "json",
-    // tells Jest to handle `*.vue` files
-    "vue",
-  ],
+  preset: "ts-jest",
+  testEnvironment: "jsdom",
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "vue"],
   transform: {
-    // process `*.vue` files with `vue-jest`
-    ".*\\.(vue)$": "vue-jest",
-    // process `*.js` files with `babel-jest`
-    ".*\\.(js)$": "babel-jest",
+    ".*\\.vue$": "@vue/vue2-jest",
+    ".*\\.js$": "babel-jest",
+    "^.+\\.tsx?$": "ts-jest",
   },
+  transformIgnorePatterns: ["node_modules/(?!coalesce-vue)/"],
   setupFiles: ["./tests/setupTests"],
+  testMatch: [
+    "<rootDir>/tests/unit/**/*.spec.(ts|tsx|js)",
+    "**/__tests__/*.(ts|tsx|js))",
+  ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },

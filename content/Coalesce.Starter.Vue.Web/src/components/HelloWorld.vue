@@ -96,7 +96,7 @@
                 <a href="https://vuejs.org/v2/guide/">Vue Documentation</a>
               </li>
               <li>
-                <a href="https://cli.vuejs.org/">Vue CLI Documentation</a>
+                <a href="https://vitejs.dev/">Vite Documentation</a>
               </li>
               <li>
                 <a href="https://vuetifyjs.com/en/getting-started/quick-start/"

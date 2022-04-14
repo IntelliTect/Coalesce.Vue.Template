@@ -5,12 +5,11 @@ import router from "./router";
 // Import global CSS and Fonts:
 import "typeface-roboto";
 import "@fortawesome/fontawesome-free/css/all.css";
-import "vuetify/dist/vuetify.min.css";
 import "coalesce-vue-vuetify/dist/coalesce-vue-vuetify.css";
 import "@/site.scss";
 
 // SETUP: vuetify
-import Vuetify from "vuetify";
+import Vuetify, { VInput, VTextField } from "vuetify/lib";
 Vue.use(Vuetify);
 const vuetify = new Vuetify({
   icons: {
@@ -33,11 +32,9 @@ const vuetify = new Vuetify({
 });
 
 // Global defaults for vuetify components. Change as desired.
-// @ts-expect-error - No typedefs for vue.options.components
-const components: any = Vue.options.components;
-components.VInput.options.props.dense.default = true;
-components.VTextField.options.props.dense.default = true;
-components.VTextField.options.props.outlined.default = true;
+(VInput as any).options.props.dense.default = true;
+(VTextField as any).options.props.dense.default = true;
+(VTextField as any).options.props.outlined.default = true;
 
 // SETUP: coalesce-vue
 import { AxiosClient as CoalesceAxiosClient } from "coalesce-vue";
@@ -48,7 +45,7 @@ CoalesceAxiosClient.defaults.withCredentials = true;
 import $metadata from "@/metadata.g";
 // viewmodels.g has sideeffects - it populates the global lookup on ViewModel and ListViewModel.
 import "@/viewmodels.g";
-import CoalesceVuetify from "coalesce-vue-vuetify";
+import CoalesceVuetify from "coalesce-vue-vuetify/lib";
 Vue.use(CoalesceVuetify, {
   metadata: $metadata,
 });
