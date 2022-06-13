@@ -8,8 +8,18 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "coalesce-vue-vuetify/dist/coalesce-vue-vuetify.css";
 import "@/site.scss";
 
-// SETUP: vuetify
 import Vuetify, { VInput, VTextField } from "vuetify/lib";
+
+import { AxiosClient as CoalesceAxiosClient } from "coalesce-vue";
+import CoalesceVuetify from "coalesce-vue-vuetify/lib";
+
+import $metadata from "@/metadata.g";
+// viewmodels.g has side effects - it populates the global lookup on ViewModel and ListViewModel.
+// This global lookup allows the admin page components to function.
+import "@/viewmodels.g";
+
+
+// SETUP: vuetify
 Vue.use(Vuetify);
 const vuetify = new Vuetify({
   icons: {
@@ -37,15 +47,10 @@ const vuetify = new Vuetify({
 (VTextField as any).options.props.outlined.default = true;
 
 // SETUP: coalesce-vue
-import { AxiosClient as CoalesceAxiosClient } from "coalesce-vue";
 CoalesceAxiosClient.defaults.baseURL = "/api";
 CoalesceAxiosClient.defaults.withCredentials = true;
 
 // SETUP: coalesce-vue-vuetify
-import $metadata from "@/metadata.g";
-// viewmodels.g has sideeffects - it populates the global lookup on ViewModel and ListViewModel.
-import "@/viewmodels.g";
-import CoalesceVuetify from "coalesce-vue-vuetify/lib";
 Vue.use(CoalesceVuetify, {
   metadata: $metadata,
 });

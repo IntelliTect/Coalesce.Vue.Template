@@ -7,8 +7,10 @@ namespace Coalesce.Starter.Vue.Data.Models
 {
     public class ApplicationUser
     {
+#nullable disable
         public int ApplicationUserId { get; set; }
 
         public string Name { get; set; }
+#nullable restore
     }
 }

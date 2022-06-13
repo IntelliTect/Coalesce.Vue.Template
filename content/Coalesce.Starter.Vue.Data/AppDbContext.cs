@@ -12,7 +12,7 @@ namespace Coalesce.Starter.Vue.Data
     [Coalesce]
     public class AppDbContext : DbContext
     {
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
 
         public AppDbContext()
         {

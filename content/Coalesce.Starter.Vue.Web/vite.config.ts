@@ -71,11 +71,14 @@ export default defineConfig(async ({ command, mode }) => {
 
       // Perform type checking during development and build time.
       checker({
+        // VLS: Vue Language Server, the language server portion of Vetur.
         vls: {
-          // Template validation is turned off because Vue2 doesn't support Typescript syntax inside of templates,
-          // prohibiting the use of features like casts and non-null assertions  that would allow for writing type-perfect code.
-          // These settings mirror the behavior of vue-cli.
-          // If you want to try to write type-perfect code inside templates, feel free to turn these on.
+          // Template validation is turned off because Vue2 doesn't support
+          // Typescript syntax inside of templates, prohibiting the use of
+          // features like casts and non-null assertions  that would allow
+          // for writing type-perfect code. These settings mirror the behavior
+          // of vue-cli. If you want to try to write type-perfect code inside
+          // templates, feel free to turn these on.
           vetur: {
             validation: {
               template: false,
@@ -90,13 +93,15 @@ export default defineConfig(async ({ command, mode }) => {
       alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
     },
 
-    // Development only:
+    // The development server launched by UseViteDevelopmentServer must be HTTPS
+    // to avoid issues with mixed content:
     server: {
       https: {
         key: readFileSync(keyFilePath),
         cert: readFileSync(certFilePath),
       },
     },
+
     optimizeDeps: {
       // The configuration for SASS here is so that Vuetify's styles
       // will be included in Vite's Dependency Pre-Bundling feature.

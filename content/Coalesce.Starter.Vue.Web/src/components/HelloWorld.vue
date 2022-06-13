@@ -105,13 +105,13 @@
               </li>
               <li>
                 <a
-                  href="https://coalesce.readthedocs.io/en/latest/pages/stacks/vue/overview/"
+                  href="https://intellitect.github.io/Coalesce/stacks/vue/overview"
                   >Coalesce Documentation</a
                 >
               </li>
               <li>
                 <a
-                  href="https://coalesce.readthedocs.io/en/latest/pages/stacks/vue/coalesce-vue-vuetify/overview/"
+                  href="https://intellitect.github.io/Coalesce/stacks/vue/coalesce-vue-vuetify/overview"
                   >Coalesce Vuetify Documentation</a
                 >
               </li>

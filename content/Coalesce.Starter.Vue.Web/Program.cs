@@ -1,14 +1,14 @@
-using Coalesce.Starter.Vue.Data;
 using IntelliTect.Coalesce;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Coalesce.Starter.Vue.Data;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -25,13 +25,13 @@ var services = builder.Services;
 
 builder.Logging
     .AddConsole()
+    // Filter out Request Starting/Request Finished noise:
     .AddFilter<ConsoleLoggerProvider>("Microsoft.AspNetCore.Hosting.Diagnostics", LogLevel.Warning);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-services.AddSingleton<IConfiguration>(configuration);
 services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
@@ -39,12 +39,11 @@ services.AddCoalesce<AppDbContext>();
 
 services
     .AddMvc()
-    .AddNewtonsoftJson(options =>
+    .AddJsonOptions(options =>
     {
-        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        options.SerializerSettings.Formatting = Formatting.Indented;
-        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -79,9 +78,6 @@ if (app.Environment.IsDevelopment())
     // End Dummy Authentication.
 }
 
-
-app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -90,7 +86,7 @@ app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
     {
-        // vue-cli puts 8-hex-char hashes before the file extension.
+        // vite puts 8-hex-char hashes before the file extension.
         // Use this to determine if we can send a long-term cache duration.
         if (containsFileHashRegex.IsMatch(ctx.File.Name))
         {
@@ -100,7 +96,8 @@ app.UseStaticFiles(new StaticFileOptions
     }
 });
 
-// For all requests that aren't to static files, disallow caching.
+// For all requests that aren't to static files, disallow caching by default.
+// Individual endpoints may override this.
 app.Use(async (context, next) =>
 {
     context.Response.GetTypedHeaders().CacheControl =
@@ -109,15 +106,12 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
+app.MapControllers();
 
-    // API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
-    endpoints.Map("api/{**any}", ctx => { ctx.Response.StatusCode = StatusCodes.Status404NotFound; return Task.CompletedTask; });
+// API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
+app.Map("/api/{**any}", () => Results.NotFound() );
 
-    endpoints.MapFallbackToController("Index", "Home");
-});
+app.MapFallbackToController("Index", "Home");
 
 #endregion
 
@@ -131,7 +125,7 @@ using (var scope = app.Services.CreateScope())
     var serviceScope = scope.ServiceProvider;
 
     // Run database migrations.
-    using var db = serviceScope.GetService<AppDbContext>();
+    using var db = serviceScope.GetRequiredService<AppDbContext>();
     db.Initialize();
 }
 
