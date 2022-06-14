@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+namespace Coalesce.Starter.Vue.Data.Models;
 
-namespace Coalesce.Starter.Vue.Data.Models
+#nullable disable
+
+public class ApplicationUser
 {
-    public class ApplicationUser
-    {
-        public int ApplicationUserId { get; set; }
+    public int ApplicationUserId { get; set; }
 
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
+
+#nullable restore
+
+
 }

@@ -1,44 +1,137 @@
+using IntelliTect.Coalesce;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Coalesce.Starter.Vue.Data;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
-namespace Coalesce.Starter.Vue.Web
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-    public static class Program
+    Args = args,
+    // Explicit declaration prevents ASP.NET Core from erroring if wwwroot doesn't exist at startup:
+    WebRootPath = "wwwroot"
+});
+
+var configuration = builder.Configuration;
+var services = builder.Services;
+
+
+#region Configure Services
+
+builder.Logging
+    .AddConsole()
+    // Filter out Request Starting/Request Finished noise:
+    .AddFilter<ConsoleLoggerProvider>("Microsoft.AspNetCore.Hosting.Diagnostics", LogLevel.Warning);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), opt => opt
+        .EnableRetryOnFailure()
+        .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+    ));
+
+services.AddCoalesce<AppDbContext>();
+
+services
+    .AddMvc()
+    .AddJsonOptions(options =>
     {
-        public static void Main(string[] args)
-        {
-            var host = BuildWebHost(args);
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
-            // https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/#move-database-initialization-code
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie();
 
-                // Run database migrations.
-                AppDbContext db = services.GetService<AppDbContext>();
-                db.Initialize();
-            }
-            host.Run();
-        }
+#endregion
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseWebRoot("wwwroot") // Prevents ASP.NET Core from ignoring wwwroot if it doesn't exist at startup.
-                .ConfigureAppConfiguration((builder, config) =>
-                {
-                    config
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                        .AddEnvironmentVariables();
-                })
-                .ConfigureLogging(logging =>
-                {
-                    logging.AddConsole();
-                })
-                .UseStartup<Startup>()
-                .Build();
-    }
+
+
+#region Configure HTTP Pipeline
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+
+    app.UseViteDevelopmentServer();
+
+    // TODO: Dummy authentication for initial development.
+    // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.
+    // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
+    app.Use(async (context, next) =>
+    {
+        Claim[] claims = new[] { new Claim(ClaimTypes.Name, "developmentuser") };
+
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
+
+        await next.Invoke();
+    });
+    // End Dummy Authentication.
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+var containsFileHashRegex = new Regex(@"\.[0-9a-fA-F]{8}\.[^\.]*$", RegexOptions.Compiled);
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        // vite puts 8-hex-char hashes before the file extension.
+        // Use this to determine if we can send a long-term cache duration.
+        if (containsFileHashRegex.IsMatch(ctx.File.Name))
+        {
+            ctx.Context.Response.GetTypedHeaders().CacheControl =
+                new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromDays(30) };
+        }
+    }
+});
+
+// For all requests that aren't to static files, disallow caching by default.
+// Individual endpoints may override this.
+app.Use(async (context, next) =>
+{
+    context.Response.GetTypedHeaders().CacheControl =
+        new CacheControlHeaderValue { NoCache = true, NoStore = true, };
+
+    await next();
+});
+
+app.MapControllers();
+
+// API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
+app.Map("/api/{**any}", () => Results.NotFound() );
+
+app.MapFallbackToController("Index", "Home");
+
+#endregion
+
+
+
+#region Launch
+
+// Initialize/migrate database.
+using (var scope = app.Services.CreateScope())
+{
+    var serviceScope = scope.ServiceProvider;
+
+    // Run database migrations.
+    using var db = serviceScope.GetRequiredService<AppDbContext>();
+    db.Initialize();
+}
+
+app.Run();
+
+#endregion

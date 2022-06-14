@@ -1,13 +1,10 @@
 <template>
   <v-container>
-    <h1>
-      {{ msg }}
-    </h1>
     <v-row>
       <v-col cols="12" lg="7">
         <v-card>
           <v-card-title>
-            Welcome to your new Coalesce application!
+            {{ msg }}
           </v-card-title>
           <v-card-text class="black--text">
             <h2 class="headline font-weight-light mb-3">
@@ -27,16 +24,20 @@
               </li>
               <li>
                 <i class="fas fa-star" />
-                <strong>Implement a proper authentication mechanism</strong> in
-                Startup.cs and remove the existing dummy authentication. Options
+                <strong> Implement a proper authentication mechanism</strong> in
+                Program.cs and remove the existing dummy authentication. Options
                 include
                 <a
                   href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity"
                 >
                   Identity
                 </a>
-                and Windows Authentication (enabled in the Debug tab of the
-                properties of your Web project.)
+                and
+                <a
+                  href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/windowsauth?view=aspnetcore-6.0#kestrel"
+                >
+                  Windows Authentication
+                </a>
 
                 <br />
                 <br />
@@ -99,7 +100,7 @@
                 <a href="https://vuejs.org/v2/guide/">Vue Documentation</a>
               </li>
               <li>
-                <a href="https://cli.vuejs.org/">Vue CLI Documentation</a>
+                <a href="https://vitejs.dev/">Vite Documentation</a>
               </li>
               <li>
                 <a href="https://vuetifyjs.com/en/getting-started/quick-start/"
@@ -108,13 +109,13 @@
               </li>
               <li>
                 <a
-                  href="https://coalesce.readthedocs.io/en/latest/pages/stacks/vue/overview/"
+                  href="https://intellitect.github.io/Coalesce/stacks/vue/overview"
                   >Coalesce Documentation</a
                 >
               </li>
               <li>
                 <a
-                  href="https://coalesce.readthedocs.io/en/latest/pages/stacks/vue/coalesce-vue-vuetify/overview/"
+                  href="https://intellitect.github.io/Coalesce/stacks/vue/coalesce-vue-vuetify/overview"
                   >Coalesce Vuetify Documentation</a
                 >
               </li>
@@ -153,7 +154,7 @@ import $metadata from "@/metadata.g";
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+  @Prop() private msg!: string | null;
 
   adminTypes = Object.values($metadata.types).filter((t) => t.type == "model");
 }

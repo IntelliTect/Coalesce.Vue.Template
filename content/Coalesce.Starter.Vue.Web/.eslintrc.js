@@ -4,14 +4,13 @@ module.exports = {
     node: true,
   },
   extends: [
-    "plugin:vue/recommended",
+    "plugin:eslint-plugin-vue/recommended",
     "eslint:recommended",
-    "@vue/typescript/recommended",
-    "@vue/prettier",
-    "@vue/prettier/@typescript-eslint",
+    "@vue/eslint-config-typescript/recommended",
+    "@vue/eslint-config-prettier",
   ],
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: "latest",
   },
   rules: {
     "prettier/prettier": [
@@ -27,16 +26,5 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-console": "off",
   },
-  ignorePatterns: ["/**/*.g.ts", "webpack.config.aspnetcore-hmr.js"],
-  overrides: [
-    {
-      files: [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)",
-      ],
-      env: {
-        jest: true,
-      },
-    },
-  ],
+  ignorePatterns: ["/**/*.g.ts"],
 };

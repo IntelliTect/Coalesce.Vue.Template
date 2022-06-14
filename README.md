@@ -1,11 +1,8 @@
 # Coalesce Vue Dotnet CLI Template
 
-This template will set up a barebones Coalesce solution using the
-Vue generators which you can build your app upon.
+This template will set up a bare-bones Coalesce Vue solution which you can build your app upon.
 
-For more information on Coalesce, visit: [http://coalesce.intellitect.com/](http://coalesce.intellitect.com/)
-
-For the Coalesce source code, visit: [https://github.com/IntelliTect/Coalesce](https://github.com/IntelliTect/Coalesce)
+For more information on Coalesce, visit: [https://github.com/IntelliTect/Coalesce](https://github.com/IntelliTect/Coalesce)
 
 ## Template Installation
 
@@ -27,18 +24,6 @@ xUnit Test Project                                    xunit            [C#], F#,
 ASP.NET Core Empty                                    web              [C#], F#          Web/Empty
 ASP.NET Core Web App (Model-View-Controller)          mvc              [C#], F#          Web/MVC
 IntelliTect Coalesce Web App Vue Template     	      coalescevue      [C#]              Web/MVC/Vue
-ASP.NET Core Web App                                  razor            [C#]              Web/MVC/Razor Pages
-ASP.NET Core with Angular                             angular          [C#]              Web/MVC/SPA
-ASP.NET Core with React.js                            react            [C#]              Web/MVC/SPA
-ASP.NET Core with React.js and Redux                  reactredux       [C#]              Web/MVC/SPA
-ASP.NET Core Web API                                  webapi           [C#], F#          Web/WebAPI
-global.json file                                      globaljson                         Config
-NuGet Config                                          nugetconfig                        Config
-Web Config                                            webconfig                          Config
-Solution File                                         sln                                Solution
-Razor Page                                            page                               Web/ASP.NET
-MVC ViewImports                                       viewimports                        Web/ASP.NET
-MVC ViewStart                                         viewstart                          Web/ASP.NET
 
 ```
 
@@ -58,21 +43,22 @@ At this point, you can open up Visual Studio and run the application. However, y
 
 After you've started to grow content with your project, consider the following:
 
-* Remove the dummy authentication from `Startup.cs` and implement a proper authentication scheme.
+* Remove the dummy authentication from `Program.cs` and implement a proper authentication scheme.
 
 # Project Configuration
-This project is made with [vue-cli](https://cli.vuejs.org). Additional plugins for `vue-cli` may be added as desired.
+This project is built on [vite](https://vitejs.dev/). Additional plugins for `vite` may be added as desired.
 
-You are **strongly** encouraged to read through at least the first few pages of the [vue-cli docs](https://cli.vuejs.org/guide/) before getting started on any development.
+You are **strongly** encouraged to read through at least the first few pages of the [Vite docs](https://vitejs.dev/guide/why) before getting started on any development.
 
 Project structure of the Web project is as follows:
+* `/index.html` - The root document of the SPA application.
 * `/src` - Files that should be compiled into your application. CSS/SCSS, TypeScript, Vue SFCs, and so on.
-* `/public` - Static assets that should be served as files. Includes `index.html`, the root document of the application.
-* `/tests` - Jest unit tests.
+* `/public` - Static assets that should be served as files.
+* `/tests` - Vitest tests.
 * `/wwwroot` - Target for compiled output.
 
 As always with a Coalesce project, run `dotnet coalesce` to perform code generation.
 
-During development, no special tooling is required to build your frontend code. `WebpackDevMiddleware` in ASP.NET Core will take care of that automatically when the application starts.
+During development, no special tooling is required to build your frontend code. `UseViteDevelopmentServer` (provided by IntelliTect.Coalesce.Vue) in ASP.NET Core will take care of that automatically when the application starts.
 
-Upon publish, a target defined in the `.csproj` file of the web project will build all static resources for production.
+When deploying to production, make sure to build the SPA application with `npm run build`.

@@ -1,10 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-
-import Home from "./views/Home.vue";
-import About from "./views/About.vue";
-import CoalesceExample from "./views/CoalesceExample.vue";
-import { CAdminTablePage, CAdminEditorPage } from "coalesce-vue-vuetify";
+import { CAdminTablePage, CAdminEditorPage } from "coalesce-vue-vuetify/lib";
 
 Vue.use(Router);
 
@@ -14,17 +10,12 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home,
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: About,
+      component: () => import("./views/Home.vue"),
     },
     {
       path: "/coalesce-example",
       name: "coalesce-example",
-      component: CoalesceExample,
+      component: () => import("./views/CoalesceExample.vue"),
       props: { title: "Coalesce Example" },
     },
 

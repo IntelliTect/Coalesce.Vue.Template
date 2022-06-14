@@ -1,5 +1,5 @@
 {
-  "editor.formatOnPaste": true,
+  "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "typescript.tsdk": "node_modules\\typescript\\lib",
@@ -8,5 +8,6 @@
     "source.fixAll.eslint": true
   },
   "vetur.validation.template": false,
-  "eslint.validate": ["javascript", "typescript", "vue"]
+  "eslint.validate": ["javascript", "typescript", "vue"],
+  "cSpell.words": ["Vite"]
 }
