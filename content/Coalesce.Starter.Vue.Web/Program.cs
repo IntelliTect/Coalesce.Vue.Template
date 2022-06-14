@@ -33,7 +33,10 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), opt => opt
+        .EnableRetryOnFailure()
+        .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+    ));
 
 services.AddCoalesce<AppDbContext>();
 
