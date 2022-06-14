@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: olegtarasov/get-tag@v2.1 #populates GIT_TAG_NAME
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Pack
-      run: nuget pack IntelliTect.Coalesce.Vue.Template.nuspec -Version ${GIT_TAG_NAME}
-    - name: Push
-      run: dotnet nuget push --source https://api.nuget.org/v3/index.json -k ${NUGET_KEY} "**/*.nupkg"
-      env:
-        NUGET_KEY: ${{ secrets.NUGET_KEY }}
+      - uses: actions/checkout@v2
+      - uses: olegtarasov/get-tag@v2.1 #populates GIT_TAG_NAME
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Pack
+        run: nuget pack IntelliTect.Coalesce.Vue.Template.nuspec -Version ${GIT_TAG_NAME} -NoDefaultExcludes
+      - name: Push
+        run: dotnet nuget push --source https://api.nuget.org/v3/index.json -k ${NUGET_KEY} "**/*.nupkg"
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
