@@ -10,7 +10,7 @@ module.exports = {
     "@vue/eslint-config-prettier",
   ],
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: "latest",
   },
   rules: {
     "prettier/prettier": [
@@ -26,16 +26,5 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-console": "off",
   },
-  ignorePatterns: ["/**/*.g.ts", "webpack.config.aspnetcore-hmr.js"],
-  overrides: [
-    {
-      files: [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)",
-      ],
-      env: {
-        jest: true,
-      },
-    },
-  ],
+  ignorePatterns: ["/**/*.g.ts"],
 };

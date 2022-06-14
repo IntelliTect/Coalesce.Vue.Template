@@ -24,16 +24,20 @@
               </li>
               <li>
                 <i class="fas fa-star" />
-                <strong>Implement a proper authentication mechanism</strong> in
-                Startup.cs and remove the existing dummy authentication. Options
+                <strong> Implement a proper authentication mechanism</strong> in
+                Program.cs and remove the existing dummy authentication. Options
                 include
                 <a
                   href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity"
                 >
                   Identity
                 </a>
-                and Windows Authentication (enabled in the Debug tab of the
-                properties of your Web project.)
+                and
+                <a
+                  href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/windowsauth?view=aspnetcore-6.0#kestrel"
+                >
+                  Windows Authentication
+                </a>
 
                 <br />
                 <br />
@@ -150,7 +154,7 @@ import $metadata from "@/metadata.g";
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+  @Prop() private msg!: string | null;
 
   adminTypes = Object.values($metadata.types).filter((t) => t.type == "model");
 }

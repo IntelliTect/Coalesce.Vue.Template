@@ -18,7 +18,6 @@ import $metadata from "@/metadata.g";
 // This global lookup allows the admin page components to function.
 import "@/viewmodels.g";
 
-
 // SETUP: vuetify
 Vue.use(Vuetify);
 const vuetify = new Vuetify({
