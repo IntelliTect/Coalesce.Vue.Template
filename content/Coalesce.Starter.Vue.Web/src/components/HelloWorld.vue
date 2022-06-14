@@ -59,7 +59,13 @@
         </v-card>
 
         <v-card class="mt-5">
-          <v-card-title> Admin Page Links </v-card-title>
+          <v-card-title>
+            Admin Page Links
+            <v-spacer></v-spacer>
+            <a href="/coalesce-security" class="headline font-weight-light">
+              Security Overview
+            </a>
+          </v-card-title>
           <v-card-text class="black--text">
             <v-simple-table dense>
               <thead>

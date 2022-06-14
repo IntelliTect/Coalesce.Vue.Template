@@ -7,7 +7,7 @@
     <authors>IntelliTect</authors>
     <owners>IntelliTect</owners>
     <projectUrl>https://github.com/IntelliTect/Coalesce.Vue.Template</projectUrl>
-    <licenseUrl>https://raw.githubusercontent.com/IntelliTect/Coalesce.Vue.Template/master/license.txt</licenseUrl>
+    <license type="expression">Apache-2.0</license>
     <description>
 From a command prompt, run:
 
@@ -20,7 +20,7 @@ CMD> dotnet new coalescevue [-n Optional.Name]
 If you don't specify a name, the template will infer one from the name of the folder you are in.
     </description>
     <summary>Creates a new Coalesce application with the Vue generators. http://coalesce.intellitect.com/</summary>
-    <copyright>© IntelliTect 2018</copyright>
+    <copyright>© IntelliTect 2022</copyright>
     <language>en-US</language>
     <tags>IntelliTect Coalesce Vue</tags>
     <packageTypes>

@@ -66,6 +66,8 @@ if (app.Environment.IsDevelopment())
 
     app.UseViteDevelopmentServer();
 
+    app.MapCoalesceSecurityOverview("coalesce-security");
+
     // TODO: Dummy authentication for initial development.
     // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.
     // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
