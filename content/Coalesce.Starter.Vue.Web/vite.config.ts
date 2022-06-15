@@ -43,7 +43,7 @@ export default defineConfig(async ({ command, mode }) => {
       }),
 
       // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue
-      createAspNetCoreHmrPlugin({}),
+      createAspNetCoreHmrPlugin(),
 
       // Perform type checking during development and build time.
       createCheckerPlugin({
@@ -61,19 +61,6 @@ export default defineConfig(async ({ command, mode }) => {
           },
         },
       }),
-
-      // Exclude css when running vitest.
-      // Can be removed once https://github.com/vitest-dev/vitest/pull/1467 is released.
-      mode == "test"
-        ? {
-            name: "vitest-exclude-css",
-            enforce: "pre",
-            transform(code, id) {
-              if (/\.(css|sass|scss|less|stylus)$/.test(id))
-                return { code: "" };
-            },
-          }
-        : undefined,
     ],
 
     resolve: {

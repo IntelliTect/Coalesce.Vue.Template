@@ -17,12 +17,6 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     WebRootPath = "wwwroot"
 });
 
-var configuration = builder.Configuration;
-var services = builder.Services;
-
-
-#region Configure Services
-
 builder.Logging
     .AddConsole()
     // Filter out Request Starting/Request Finished noise:
@@ -32,8 +26,12 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+#region Configure Services
+
+var services = builder.Services;
+
 services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), opt => opt
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), opt => opt
         .EnableRetryOnFailure()
         .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
     ));
@@ -114,7 +112,7 @@ app.Use(async (context, next) =>
 app.MapControllers();
 
 // API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
-app.Map("/api/{**any}", () => Results.NotFound() );
+app.Map("/api/{**any}", () => Results.NotFound());
 
 app.MapFallbackToController("Index", "Home");
 
