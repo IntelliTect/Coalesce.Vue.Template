@@ -67,6 +67,11 @@ export default defineConfig(async ({ command, mode }) => {
       alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
     },
 
+    esbuild: {
+      // vue-class-component uses the original names of classes as the component name.
+      keepNames: true,
+    },
+
     css: { preprocessorOptions: { sass: sassOptions } },
 
     optimizeDeps: {
