@@ -16,10 +16,7 @@ public class HomeController : Controller
     )
     {
         var fileInfo = hostingEnvironment.WebRootFileProvider.GetFileInfo("index.html");
-        if (!fileInfo.Exists)
-        {
-            return Ok($"{fileInfo.Name} not found. HMR build is probably still running for the first time. Keep refreshing...");
-        }
+        if (!fileInfo.Exists) return NotFound($"{hostingEnvironment.WebRootPath}/index.html was not found");
 
         return File(fileInfo.CreateReadStream(), "text/html");
     }

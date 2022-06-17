@@ -62,7 +62,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
-    app.UseViteDevelopmentServer();
+    app.UseViteDevelopmentServer(c =>
+    {
+        c.DevServerPort = 5002;
+    });
 
     app.MapCoalesceSecurityOverview("coalesce-security");
 
