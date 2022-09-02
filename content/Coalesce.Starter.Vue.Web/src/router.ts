@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { CAdminTablePage, CAdminEditorPage } from "coalesce-vue-vuetify/lib";
+import { CAdminTablePage, CAdminEditorPage } from "coalesce-vue-vuetify2/lib";
 
 Vue.use(Router);
 

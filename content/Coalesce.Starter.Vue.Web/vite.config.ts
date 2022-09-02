@@ -2,13 +2,13 @@ import path from "path";
 
 import { defineConfig } from "vite";
 
-import { createVuePlugin } from "vite-plugin-vue2";
+import createVuePlugin from "@vitejs/plugin-vue2";
 import createCheckerPlugin from "vite-plugin-checker";
 import createVueComponentImporterPlugin from "unplugin-vue-components/vite";
 import { VuetifyResolver } from "unplugin-vue-components/resolvers";
 
 import { createAspNetCoreHmrPlugin } from "coalesce-vue/lib/build";
-import { CoalesceVuetifyResolver } from "coalesce-vue-vuetify/lib/build";
+import { CoalesceVuetifyResolver } from "coalesce-vue-vuetify2/lib/build";
 
 import { sassPlugin } from "esbuild-sass-plugin";
 
@@ -46,7 +46,8 @@ export default defineConfig(async ({ command, mode }) => {
       createAspNetCoreHmrPlugin(),
 
       // Perform type checking during development and build time.
-      createCheckerPlugin({
+      // Disable during test (vitest) because it isn't capable of emitting errors to vitest.
+      mode !== "test" && createCheckerPlugin({
         // VLS: Vue Language Server, the language server portion of Vetur.
         vls: {
           vetur: {

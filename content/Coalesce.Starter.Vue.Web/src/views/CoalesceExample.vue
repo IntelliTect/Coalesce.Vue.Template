@@ -37,7 +37,7 @@ export default class CoalesceExample extends Vue {
   @Prop({ required: true, type: String })
   public title!: string;
 
-  private user = new ApplicationUserViewModel();
+  user = new ApplicationUserViewModel();
 
   async created() {
     await this.user.$load(1);

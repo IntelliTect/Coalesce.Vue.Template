@@ -75,15 +75,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="type in adminTypes" :key="type.name">
+                <tr v-for="typeMeta in adminTypes" :key="typeMeta.name">
                   <td>
-                    {{ type.displayName }}
+                    {{ typeMeta.displayName }}
                   </td>
                   <td>
                     <router-link
                       :to="{
                         name: 'coalesce-admin-list',
-                        params: { type: type.name },
+                        params: { type: typeMeta.name },
                       }"
                     >
                       Table
@@ -160,7 +160,7 @@ import $metadata from "@/metadata.g";
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string | null;
+  @Prop() msg!: string | null;
 
   adminTypes = Object.values($metadata.types).filter((t) => t.type == "model");
 }
