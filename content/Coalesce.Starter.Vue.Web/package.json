@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.15.4",
-    "coalesce-vue": "3.0.1-alpha.20220901.5",
-    "coalesce-vue-vuetify2": "3.0.1-alpha.20220901.5",
+    "coalesce-vue": "3.0.1-alpha.20220927.1",
+    "coalesce-vue-vuetify2": "3.0.1-alpha.20220927.1",
     "typeface-roboto": "1.1.13",
     "vue": "2.7.10",
     "vue-property-decorator": "9.1.2",
@@ -23,17 +23,17 @@
     "vuetify": "2.6.9"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue2": "1.1.2",
+    "@vitejs/plugin-vue2": "2.0.0",
+    "@vitest/coverage-c8": "^0.23.4",
     "@vue/eslint-config-prettier": "7.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
     "@vue/test-utils": "1.3.0",
-    "c8": "^7.12.0",
     "esbuild-sass-plugin": "^2.2.6",
-    "typescript": "~4.7.4",
-    "unplugin-vue-components": "0.22.4",
-    "vite": "3.0.9",
+    "typescript": "~4.8.4",
+    "unplugin-vue-components": "0.22.7",
+    "vite": "3.1.4",
     "vite-plugin-checker": "0.4.9",
-    "vitest": "0.22.1",
+    "vitest": "0.23.4",
     "vls": "0.7.6"
   }
 }

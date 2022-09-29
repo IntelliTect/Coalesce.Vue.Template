@@ -7,7 +7,10 @@ import createCheckerPlugin from "vite-plugin-checker";
 import createVueComponentImporterPlugin from "unplugin-vue-components/vite";
 import { VuetifyResolver } from "unplugin-vue-components/resolvers";
 
-import { createAspNetCoreHmrPlugin } from "coalesce-vue/lib/build";
+import {
+  createAspNetCoreHmrPlugin,
+  createClassNameFixerPlugin,
+} from "coalesce-vue/lib/build";
 import { CoalesceVuetifyResolver } from "coalesce-vue-vuetify2/lib/build";
 
 import { sassPlugin } from "esbuild-sass-plugin";
@@ -45,23 +48,27 @@ export default defineConfig(async ({ command, mode }) => {
       // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue
       createAspNetCoreHmrPlugin(),
 
+      // Workaround issues in Rollup that can break component naming w/ vue-class-component.
+      createClassNameFixerPlugin(),
+
       // Perform type checking during development and build time.
       // Disable during test (vitest) because it isn't capable of emitting errors to vitest.
-      mode !== "test" && createCheckerPlugin({
-        // VLS: Vue Language Server, the language server portion of Vetur.
-        vls: {
-          vetur: {
-            // Template validation is turned off because this mirrors the classic behavior of vue-cli.
-            // However, modern syntax like the null propagating operator IS available in this configuration,
-            // so these options can be turned on if desired.
-            validation: {
-              template: false,
-              templateProps: false,
-              interpolation: false,
+      mode !== "test" &&
+        createCheckerPlugin({
+          // VLS: Vue Language Server, the language server portion of Vetur.
+          vls: {
+            vetur: {
+              // Template validation is turned off because this mirrors the classic behavior of vue-cli.
+              // However, modern syntax like the null propagating operator IS available in this configuration,
+              // so these options can be turned on if desired.
+              validation: {
+                template: false,
+                templateProps: false,
+                interpolation: false,
+              },
             },
           },
-        },
-      }),
+        }),
     ],
 
     resolve: {
@@ -83,6 +90,11 @@ export default defineConfig(async ({ command, mode }) => {
       // See https://github.com/vitejs/vite/issues/7719
       extensions: [".scss", ".sass"],
       esbuildOptions: {
+        // Sourcemaps are off because if they're not, when using the Search (CTRL+SHIFT+F)
+        // feature in Chrome dev tools, hundreds of requests will be made to try and load the sourcemaps,
+        // slowing down the search operation significantly.
+        // Generally you don't want to sourcemap external dependencies anyway.
+        sourcemap: false,
         plugins: [
           sassPlugin({
             type: "style",

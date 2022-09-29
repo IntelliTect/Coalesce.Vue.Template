@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Coalesce.Starter.Vue.Data.Models;
-using IntelliTect.Coalesce;
 
 namespace Coalesce.Starter.Vue.Data;
 
