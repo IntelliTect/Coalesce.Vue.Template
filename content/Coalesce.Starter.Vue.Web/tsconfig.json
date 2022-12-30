@@ -9,19 +9,23 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
 
-    // useDuseDefineForClassFields=false due to https://github.com/microsoft/TypeScript/issues/45297
+    // useDefineForClassFields=false due to https://github.com/microsoft/TypeScript/issues/45297
     "useDefineForClassFields": false,
 
     "noEmitOnError": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["node", "vitest/globals"],
+    "types": ["node", "vitest/globals", "vuetify2-component-types"],
     "paths": {
       "@/*": ["src/*"],
       "vuetify/lib": ["node_modules/vuetify/types/lib"]
     }
   },
+  "vueCompilerOptions": {
+    "target": 2.7
+  },
   "include": [
+    "./components.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",

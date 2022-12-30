@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Coalesce.Starter.Vue.Data;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -30,11 +31,14 @@ builder.Configuration
 
 var services = builder.Services;
 
-services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), opt => opt
+services.AddDbContext<AppDbContext>(options => options
+    .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), opt => opt
         .EnableRetryOnFailure()
         .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
-    ));
+    )
+    // Ignored because it interferes with the construction of Coalesce IncludeTrees via .Include()
+    .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored))
+);
 
 services.AddCoalesce<AppDbContext>();
 
@@ -132,7 +136,7 @@ using (var scope = app.Services.CreateScope())
 
     // Run database migrations.
     using var db = serviceScope.GetRequiredService<AppDbContext>();
-    db.Initialize();
+    db.Database.Migrate();
 }
 
 app.Run();

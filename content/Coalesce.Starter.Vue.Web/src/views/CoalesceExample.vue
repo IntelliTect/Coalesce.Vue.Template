@@ -32,7 +32,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { ApplicationUserViewModel } from "@/viewmodels.g";
 
-@Component
+@Component({})
 export default class CoalesceExample extends Vue {
   @Prop({ required: true, type: String })
   public title!: string;

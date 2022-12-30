@@ -86,7 +86,6 @@ export default class App extends Vue {
 <style lang="scss">
 .router-transition-enter-active,
 .router-transition-leave-active {
-  // transition: 0.2s cubic-bezier(0.25, 0.8, 0.5, 1);
   transition: 0.1s ease-out;
 }
 
@@ -97,6 +96,5 @@ export default class App extends Vue {
 .router-transition-enter,
 .router-transition-leave-to {
   opacity: 0;
-  // transform: translateY(5px);
 }
 </style>

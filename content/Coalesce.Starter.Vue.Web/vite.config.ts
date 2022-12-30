@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 
 import { defineConfig } from "vite";
 
@@ -6,14 +6,10 @@ import createVuePlugin from "@vitejs/plugin-vue2";
 import createCheckerPlugin from "vite-plugin-checker";
 import createVueComponentImporterPlugin from "unplugin-vue-components/vite";
 import { VuetifyResolver } from "unplugin-vue-components/resolvers";
-
-import {
-  createAspNetCoreHmrPlugin,
-  createClassNameFixerPlugin,
-} from "coalesce-vue/lib/build";
-import { CoalesceVuetifyResolver } from "coalesce-vue-vuetify2/lib/build";
-
 import { sassPlugin } from "esbuild-sass-plugin";
+
+import { createAspNetCoreHmrPlugin } from "coalesce-vue/lib/build";
+import { CoalesceVuetifyResolver } from "coalesce-vue-vuetify2/lib/build";
 
 import type { InlineConfig as VitestInlineConfig } from "vitest";
 import type { StringOptions } from "sass";
@@ -48,27 +44,9 @@ export default defineConfig(async ({ command, mode }) => {
       // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue
       createAspNetCoreHmrPlugin(),
 
-      // Workaround issues in Rollup that can break component naming w/ vue-class-component.
-      createClassNameFixerPlugin(),
-
       // Perform type checking during development and build time.
       // Disable during test (vitest) because it isn't capable of emitting errors to vitest.
-      mode !== "test" &&
-        createCheckerPlugin({
-          // VLS: Vue Language Server, the language server portion of Vetur.
-          vls: {
-            vetur: {
-              // Template validation is turned off because this mirrors the classic behavior of vue-cli.
-              // However, modern syntax like the null propagating operator IS available in this configuration,
-              // so these options can be turned on if desired.
-              validation: {
-                template: false,
-                templateProps: false,
-                interpolation: false,
-              },
-            },
-          },
-        }),
+      mode !== "test" && createCheckerPlugin({ vueTsc: true }),
     ],
 
     resolve: {
@@ -99,14 +77,14 @@ export default defineConfig(async ({ command, mode }) => {
           sassPlugin({
             type: "style",
             ...sassOptions,
-          }),
+          }) as any,
         ],
       },
     },
 
     test: <VitestInlineConfig>{
       globals: true,
-      environment: "jsdom",
+      environment: "happy-dom",
       setupFiles: ["tests/setupTests.ts"],
       coverage: {
         exclude: ["**/*.g.ts", "test{,s}/**"],
