@@ -32,55 +32,39 @@
     </v-app-bar>
 
     <v-main>
-      <transition
-        name="router-transition"
-        mode="out-in"
-        appear
-        @enter="routerViewOnEnter"
-      >
+      <transition name="router-transition" mode="out-in" appear>
         <!-- https://stackoverflow.com/questions/52847979/what-is-router-view-key-route-fullpath -->
-        <router-view ref="routerView" :key="$route.path" />
+        <router-view ref="routeComponent" :key="$route.path" />
       </transition>
     </v-main>
   </v-app>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
+<script setup lang="ts">
+import { ref, computed, watch } from "vue";
+import { useRoute } from "vue-router/composables";
 
-@Component({
-  components: {},
-})
-export default class App extends Vue {
-  drawer: boolean | null = null;
-  routeComponent: Vue | null = null;
+const route = useRoute();
+const drawer = ref<boolean | null>(null);
+const routeComponent = ref<any>();
 
-  get routeMeta() {
-    if (!this.$route || this.$route.name === null) return null;
+const routeMeta = computed(() => {
+  if (!route || route.name === null) return null;
+  return route.meta;
+});
 
-    return this.$route.meta;
-  }
-
-  routerViewOnEnter() {
-    this.routeComponent = this.$refs.routerView as Vue;
-  }
-
-  created() {
-    const baseTitle = document.title;
-    this.$watch(
-      () => (this.routeComponent as any)?.pageTitle,
-      (n: string | null | undefined) => {
-        if (n) {
-          document.title = n + " - " + baseTitle;
-        } else {
-          document.title = baseTitle;
-        }
-      },
-      { immediate: true }
-    );
-  }
-}
+const baseTitle = document.title;
+watch(
+  () => routeComponent.value?.pageTitle,
+  (n: string | null | undefined) => {
+    if (n) {
+      document.title = n + " - " + baseTitle;
+    } else {
+      document.title = baseTitle;
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="scss">

@@ -28,20 +28,20 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+<script setup lang="ts">
 import { ApplicationUserViewModel } from "@/viewmodels.g";
+import { computed, getCurrentInstance } from "vue";
 
-@Component({})
-export default class CoalesceExample extends Vue {
-  @Prop({ required: true, type: String })
-  public title!: string;
+const props = defineProps({ title: String });
 
-  user = new ApplicationUserViewModel();
+const user = new ApplicationUserViewModel();
+(async () => {
+  await user.$load(1);
+  user.$startAutoSave(getCurrentInstance()!.proxy, {
+    wait: 500,
+    debounce: { maxWait: 3000 },
+  });
+})();
 
-  async created() {
-    await this.user.$load(1);
-    this.user.$startAutoSave(this, { wait: 500, debounce: { maxWait: 3000 } });
-  }
-}
+defineExpose({ pageTitle: computed(() => props.title) });
 </script>

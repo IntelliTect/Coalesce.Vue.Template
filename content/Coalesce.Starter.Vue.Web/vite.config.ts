@@ -37,7 +37,7 @@ export default defineConfig(async ({ command, mode }) => {
 
       // Transforms usages of Vuetify and Coalesce components into treeshakable imports
       createVueComponentImporterPlugin({
-        dts: false,
+        dts: false, // Note: DTS can't be enabled when vuetify2-component-types is installed.
         resolvers: [VuetifyResolver(), CoalesceVuetifyResolver()],
       }),
 
@@ -46,7 +46,12 @@ export default defineConfig(async ({ command, mode }) => {
 
       // Perform type checking during development and build time.
       // Disable during test (vitest) because it isn't capable of emitting errors to vitest.
-      mode !== "test" && createCheckerPlugin({ vueTsc: true }),
+      mode !== "test" &&
+        createCheckerPlugin({
+          vueTsc: {
+            tsconfigPath: "tsconfig.dev.json",
+          },
+        }),
     ],
 
     resolve: {

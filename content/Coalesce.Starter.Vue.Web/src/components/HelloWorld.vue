@@ -103,27 +103,29 @@
             <h2 class="headline font-weight-light mb-3">Documentation</h2>
             <ul>
               <li>
-                <a href="https://vuejs.org/v2/guide/">Vue Documentation</a>
+                <a href="https://vuejs.org/v2/guide/"> Vue Documentation </a>
               </li>
               <li>
-                <a href="https://vitejs.dev/">Vite Documentation</a>
+                <a href="https://vitejs.dev/"> Vite Documentation </a>
               </li>
               <li>
-                <a href="https://vuetifyjs.com/en/getting-started/quick-start/"
-                  >Vuetify Documentation</a
-                >
+                <a href="https://vuetifyjs.com/en/getting-started/quick-start/">
+                  Vuetify Documentation
+                </a>
               </li>
               <li>
                 <a
                   href="https://intellitect.github.io/Coalesce/stacks/vue/overview"
-                  >Coalesce Documentation</a
                 >
+                  Coalesce Documentation
+                </a>
               </li>
               <li>
                 <a
                   href="https://intellitect.github.io/Coalesce/stacks/vue/coalesce-vue-vuetify/overview"
-                  >Coalesce Vuetify Documentation</a
                 >
+                  Coalesce Vuetify Documentation
+                </a>
               </li>
             </ul>
             <v-divider class="my-3" />
@@ -131,9 +133,9 @@
             <ul>
               <li>
                 Check out
-                <a href="https://github.com/vuejs/awesome-vue" target="_blank"
-                  >🎉 awesome-vue</a
-                >
+                <a href="https://github.com/vuejs/awesome-vue" target="_blank">
+                  🎉 awesome-vue
+                </a>
                 for Vue components, libraries, examples, and more!
               </li>
               <li>
@@ -141,8 +143,9 @@
                 <a
                   href="https://github.com/vuejs/vue-devtools#vue-devtools"
                   target="_blank"
-                  >vue-devtools</a
                 >
+                  vue-devtools
+                </a>
                 for enhanced in-browser Vue development experience.
               </li>
             </ul>
@@ -153,17 +156,13 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-
+<script setup lang="ts">
 import $metadata from "@/metadata.g";
 
-@Component
-export default class HelloWorld extends Vue {
-  @Prop() msg!: string | null;
-
-  adminTypes = Object.values($metadata.types).filter((t) => t.type == "model");
-}
+const props = defineProps<{ msg: string | null }>();
+const adminTypes = Object.values($metadata.types).filter(
+  (t) => t.type == "model"
+);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
