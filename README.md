@@ -8,12 +8,12 @@ For more information on Coalesce, visit: [https://github.com/IntelliTect/Coalesc
 
 From a command prompt, run:
 
-`CMD> dotnet new --install IntelliTect.Coalesce.Vue.Template`
+`CMD> dotnet new install IntelliTect.Coalesce.Vue.Template`
 
 You should now see the template in the listing:
 
 ```
-CMD> dotnet new --list
+CMD> dotnet new list
 
 Templates                                             Short Name       Language          Tags
 ------------------------------------------------------------------------------------------------------------
