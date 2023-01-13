@@ -56,7 +56,7 @@ namespace Coalesce.Starter.Vue.Web.Api
         [HttpPost("save")]
         [Authorize]
         public virtual Task<ItemResult<ApplicationUserDtoGen>> Save(
-            ApplicationUserDtoGen dto,
+            [FromForm] ApplicationUserDtoGen dto,
             [FromQuery] DataSourceParameters parameters,
             IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource,
             IBehaviors<Coalesce.Starter.Vue.Data.Models.ApplicationUser> behaviors)

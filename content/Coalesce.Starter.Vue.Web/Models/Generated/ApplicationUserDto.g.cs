@@ -34,8 +34,6 @@ namespace Coalesce.Starter.Vue.Web.Models
             if (obj == null) return;
             var includes = context.Includes;
 
-            // Fill the properties of the object.
-
             this.ApplicationUserId = obj.ApplicationUserId;
             this.Name = obj.Name;
         }
@@ -51,6 +49,16 @@ namespace Coalesce.Starter.Vue.Web.Models
 
             if (ShouldMapTo(nameof(ApplicationUserId))) entity.ApplicationUserId = (ApplicationUserId ?? entity.ApplicationUserId);
             if (ShouldMapTo(nameof(Name))) entity.Name = Name;
+        }
+
+        /// <summary>
+        /// Map from the current DTO instance to a new instance of the domain object.
+        /// </summary>
+        public override Coalesce.Starter.Vue.Data.Models.ApplicationUser MapToNew(IMappingContext context)
+        {
+            var entity = new Coalesce.Starter.Vue.Data.Models.ApplicationUser();
+            MapTo(entity, context);
+            return entity;
         }
     }
 }
