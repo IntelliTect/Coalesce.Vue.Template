@@ -1,7 +1,7 @@
 <template>
   <v-container class="white elevation-1" style="max-width: 900px">
     <v-row no-gutters>
-      <h1>{{ title }}</h1>
+      <h1>Coalesce Example</h1>
       <v-spacer />
       <v-btn large to="/admin/ApplicationUser" color="primary">
         Application User Admin Table
@@ -16,7 +16,7 @@
     <c-loader-status
       #default
       :loaders="{
-        'no-error-content no-intial-content': [user.$load],
+        'no-error-content no-initial-content': [user.$load],
         '': [user.$save],
       }"
     >
@@ -30,18 +30,13 @@
 
 <script setup lang="ts">
 import { ApplicationUserViewModel } from "@/viewmodels.g";
-import { computed, getCurrentInstance } from "vue";
-
-const props = defineProps({ title: String });
 
 const user = new ApplicationUserViewModel();
-(async () => {
-  await user.$load(1);
-  user.$startAutoSave(getCurrentInstance()!.proxy, {
-    wait: 500,
-    debounce: { maxWait: 3000 },
-  });
-})();
+user.$useAutoSave({
+  wait: 500,
+  debounce: { maxWait: 3000 },
+});
+user.$load(1);
 
-defineExpose({ pageTitle: computed(() => props.title) });
+useTitle(() => user.name);
 </script>

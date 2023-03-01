@@ -35,3 +35,8 @@ a {
     padding-top: 0;
   }
 }
+
+.v-application ul, .v-application ol {
+  // Vuetify3 lost the padding for ul/ol that Vuetify2 had. Restore it.
+  padding-left: 24px;
+}

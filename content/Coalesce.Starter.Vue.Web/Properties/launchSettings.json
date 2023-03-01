@@ -4,7 +4,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       
-      // Disables injection of MSFT's malicious JS that force-refreshes the page when C# files are changed.
+      // Disables injection of MSFT's undesirable JS that force-refreshes the page when C# files are changed.
       "hotReloadEnabled": false,
 
       "environmentVariables": {

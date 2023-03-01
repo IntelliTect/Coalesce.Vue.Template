@@ -1,13 +1,13 @@
 {
+  "typescript.tsdk": "node_modules\\typescript\\lib",
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
-  "typescript.tsdk": "node_modules\\typescript\\lib",
-  "cSpell.enableFiletypes": ["vue"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
   "vetur.validation.template": false,
   "eslint.validate": ["javascript", "typescript", "vue"],
-  "cSpell.words": ["Vite"]
+  "cSpell.enableFiletypes": ["vue"],
+  "cSpell.words": ["Vite", "unplugin", "iconsets", "viewmodels"]
 }

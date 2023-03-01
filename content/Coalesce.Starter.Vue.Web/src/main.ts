@@ -1,17 +1,18 @@
-import Vue from "vue";
+import { createApp } from "vue";
+import { createVuetify } from "vuetify";
+import { createCoalesceVuetify } from "coalesce-vue-vuetify3";
+import { aliases, fa } from "vuetify/iconsets/fa";
+import { AxiosClient as CoalesceAxiosClient } from "coalesce-vue";
+
 import App from "./App.vue";
 import router from "./router";
 
 // Import global CSS and Fonts:
 import "typeface-roboto";
 import "@fortawesome/fontawesome-free/css/all.css";
-import "coalesce-vue-vuetify2/dist/coalesce-vue-vuetify.css";
+import "coalesce-vue-vuetify3/styles.css";
 import "@/site.scss";
-
-import Vuetify, { VInput, VTextField } from "vuetify/lib";
-
-import { AxiosClient as CoalesceAxiosClient } from "coalesce-vue";
-import CoalesceVuetify from "coalesce-vue-vuetify2/lib";
+import "vuetify/styles";
 
 import $metadata from "@/metadata.g";
 // viewmodels.g has side effects - it populates the global lookup on ViewModel and ListViewModel.
@@ -19,45 +20,34 @@ import $metadata from "@/metadata.g";
 import "@/viewmodels.g";
 
 // SETUP: vuetify
-Vue.use(Vuetify);
-const vuetify = new Vuetify({
+const vuetify = createVuetify({
   icons: {
-    iconfont: "fa", // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'
+    defaultSet: "fa",
+    aliases,
+    sets: { fa },
   },
-  customProperties: true,
   theme: {
-    options: {
-      customProperties: true,
-    },
     themes: {
       light: {
-        // primary: "#9ccc6f",
-        // secondary: "#4d97bc",
-        // accent: "#e98f07",
-        error: "#df323b", // This is the default error color with darken-1
+        colors: {
+          primary: "#127815",
+        },
       },
     },
   },
 });
-
-// Global defaults for vuetify components. Change as desired.
-(VInput as any).options.props.dense.default = true;
-(VTextField as any).options.props.dense.default = true;
-(VTextField as any).options.props.outlined.default = true;
 
 // SETUP: coalesce-vue
 CoalesceAxiosClient.defaults.baseURL = "/api";
 CoalesceAxiosClient.defaults.withCredentials = true;
 
 // SETUP: coalesce-vue-vuetify
-Vue.use(CoalesceVuetify, {
+const coalesceVuetify = createCoalesceVuetify({
   metadata: $metadata,
 });
 
-Vue.config.productionTip = false;
-
-new Vue({
-  router,
-  vuetify,
-  render: (h) => h(App),
-}).$mount("#app");
+const app = createApp(App);
+app.use(router);
+app.use(vuetify);
+app.use(coalesceVuetify);
+app.mount("#app");

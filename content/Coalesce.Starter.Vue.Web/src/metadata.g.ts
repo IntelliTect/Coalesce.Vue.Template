@@ -27,6 +27,9 @@ export const ApplicationUser = domain.types.ApplicationUser = {
       displayName: "Name",
       type: "string",
       role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Name is required.",
+      }
     },
   },
   methods: {
