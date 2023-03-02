@@ -1,11 +1,10 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
 
 import createVuePlugin from "@vitejs/plugin-vue";
-import createCheckerPlugin from "vite-plugin-checker";
 import { createAspNetCoreHmrPlugin } from "coalesce-vue/lib/build";
-import createAutoImport from 'unplugin-auto-import/vite'
+import createAutoImport from "unplugin-auto-import/vite";
 
 import createVueComponentImporterPlugin from "unplugin-vue-components/vite";
 import { CoalesceVuetifyResolver } from "coalesce-vue-vuetify3/build";
@@ -31,14 +30,8 @@ export default defineConfig(async ({ command, mode }) => {
 
     plugins: [
       createAutoImport({
-        imports: [
-          'vue',
-          'vue-router'
-        ],
-        dirs: [
-          './src/composables/*'
-        ],
-
+        imports: ["vue", "vue-router"],
+        dirs: ["./src/composables/*"],
       }),
 
       createVuePlugin(),
@@ -51,35 +44,23 @@ export default defineConfig(async ({ command, mode }) => {
 
       // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue
       createAspNetCoreHmrPlugin(),
-
-      // Perform type checking during development and build time.
-      // Disable during test (vitest) because it isn't capable of emitting errors to vitest.
-      mode !== "test" &&
-        createCheckerPlugin({
-          vueTsc: {
-            // Special tsconfig to avoid performing typechecking on test files
-            // when running the development server
-            tsconfigPath: "tsconfig.dev.json",
-          },
-        }),
     ],
 
     resolve: {
       alias: {
         // Allow imports prefixed with "@" to be relative to the src folder.
-        '@': fileURLToPath(new URL('./src', import.meta.url))
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
 
     test: {
       globals: true,
-      environment: "happy-dom",
-      setupFiles: ["tests/setupTests.ts"],
+      environment: "jsdom",
       coverage: {
         exclude: ["**/*.g.ts", "test{,s}/**"],
       },
       deps: {
-        inline: ["vuetify"],
+        inline: [/vuetify/],
       },
     },
   };
