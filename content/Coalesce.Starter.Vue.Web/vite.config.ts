@@ -10,7 +10,7 @@ import createVueComponentImporterPlugin from "unplugin-vue-components/vite";
 import { CoalesceVuetifyResolver } from "coalesce-vue-vuetify3/build";
 import { Vuetify3Resolver } from "unplugin-vue-components/resolvers";
 
-export default defineConfig(async ({ command, mode }) => {
+export default defineConfig(async () => {
   return {
     build: {
       outDir: "wwwroot",
@@ -18,10 +18,9 @@ export default defineConfig(async ({ command, mode }) => {
         output: {
           manualChunks(id) {
             if (id.match(/home/i)) return "index";
-            // All views are chunked together so that dynamic imports can be
-            // used in `router.ts`(which makes for a much more readable file).
-            // Without this, each dynamic import would get its own chunk.
-            if (id.includes("views")) return "views";
+            if (id.match(/views/)) return "views";
+            if (id.match(/vuetify/)) return "vuetify";
+            if (id.match(/node_modules/)) return "vendor";
             return "index";
           },
         },
@@ -29,12 +28,10 @@ export default defineConfig(async ({ command, mode }) => {
     },
 
     plugins: [
-      createAutoImport({
-        imports: ["vue", "vue-router"],
-        dirs: ["./src/composables/*"],
-      }),
-
       createVuePlugin(),
+
+      // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue
+      createAspNetCoreHmrPlugin(),
 
       // Transforms usages of Vuetify and Coalesce components into treeshakable imports.
       // Vuetify3Resolved could be removed and replaced by vite-plugin-vuetify if desired.
@@ -42,8 +39,10 @@ export default defineConfig(async ({ command, mode }) => {
         resolvers: [Vuetify3Resolver(), CoalesceVuetifyResolver()],
       }),
 
-      // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue
-      createAspNetCoreHmrPlugin(),
+      createAutoImport({
+        imports: ["vue", "vue-router"],
+        dirs: ["./src/composables/*"],
+      }),
     ],
 
     resolve: {
@@ -56,12 +55,8 @@ export default defineConfig(async ({ command, mode }) => {
     test: {
       globals: true,
       environment: "jsdom",
-      coverage: {
-        exclude: ["**/*.g.ts", "test{,s}/**"],
-      },
-      deps: {
-        inline: [/vuetify/],
-      },
+      coverage: { exclude: ["**/*.g.ts", "**/*.spec.*", "test{,s}/**"] },
+      deps: { inline: [/vuetify/] },
     },
   };
 });

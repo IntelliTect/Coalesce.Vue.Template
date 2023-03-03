@@ -6,16 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "lint": "eslint src",
+    "lint": "eslint .",
     "lint:fix": "eslint src --fix",
-    "coalesce": "dotnet coalesce",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "coalesce": "dotnet coalesce"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.3.0",
-    "coalesce-vue": "4.0.0-alpha.20230301.1",
-    "coalesce-vue-vuetify3": "4.0.0-alpha.20230301.1",
+    "coalesce-vue": "4.0.0-alpha.20230302.2",
+    "coalesce-vue-vuetify3": "4.0.0-alpha.20230302.2",
     "typeface-roboto": "1.1.13",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
