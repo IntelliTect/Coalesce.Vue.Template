@@ -30,15 +30,17 @@ export default defineConfig(async () => {
     plugins: [
       createVuePlugin(),
 
-      // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue
+      // Integrations with UseViteDevelopmentServer from IntelliTect.Coalesce.Vue:
       createAspNetCoreHmrPlugin(),
 
       // Transforms usages of Vuetify and Coalesce components into treeshakable imports.
-      // Vuetify3Resolved could be removed and replaced by vite-plugin-vuetify if desired.
+      // Vuetify3Resolver could be removed and replaced by vite-plugin-vuetify if desired.
       createVueComponentImporterPlugin({
         resolvers: [Vuetify3Resolver(), CoalesceVuetifyResolver()],
       }),
 
+      // Auto-import vue composition API functions,
+      // and any custom composables in the src/composables directory:
       createAutoImport({
         imports: ["vue", "vue-router"],
         dirs: ["./src/composables/*"],

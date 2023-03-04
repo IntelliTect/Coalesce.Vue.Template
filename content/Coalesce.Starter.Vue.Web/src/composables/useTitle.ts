@@ -25,8 +25,11 @@ export function useTitle(
   }
   return watch(
     title,
-    newTitle => {
-      document.title = [...(Array.isArray(newTitle) ? newTitle : [newTitle]), titlePostfix]
+    (newTitle) => {
+      document.title = [
+        ...(Array.isArray(newTitle) ? newTitle : [newTitle]),
+        titlePostfix,
+      ]
         .filter((t) => t)
         .join(titleSeparator);
     },

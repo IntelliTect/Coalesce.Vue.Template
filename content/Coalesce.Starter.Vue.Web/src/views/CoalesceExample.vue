@@ -30,12 +30,17 @@
 <script setup lang="ts">
 import { ApplicationUserViewModel } from "@/viewmodels.g";
 
+// The properties on the generated ViewModels are already reactive.
+// ViewModels and ListViewModels don't need to be wrapped in ref/reactive.
 const user = new ApplicationUserViewModel();
 user.$useAutoSave({
   wait: 500,
   debounce: { maxWait: 3000 },
 });
-user.$load(1);
 
 useTitle(() => user.name);
+
+(async function onCreated() {
+  await user.$load(1);
+})();
 </script>
