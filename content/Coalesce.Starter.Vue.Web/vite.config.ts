@@ -37,20 +37,22 @@ export default defineConfig(async () => {
       // Vuetify3Resolver could be removed and replaced by vite-plugin-vuetify if desired.
       createVueComponentImporterPlugin({
         resolvers: [Vuetify3Resolver(), CoalesceVuetifyResolver()],
+        dts: "src/types/components.d.ts"
       }),
 
       // Auto-import vue composition API functions,
       // and any custom composables in the src/composables directory:
       createAutoImport({
         imports: ["vue", "vue-router"],
-        dirs: ["./src/composables/*"],
+        dirs: ["src/composables/*"],
+        dts: "src/types/auto-imports.d.ts"
       }),
     ],
 
     resolve: {
       alias: {
         // Allow imports prefixed with "@" to be relative to the src folder.
-        "@": fileURLToPath(new URL("./src", import.meta.url)),
+        "@": fileURLToPath(new URL("src", import.meta.url)),
       },
     },
 
