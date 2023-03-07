@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coalesce.Starter.Vue.Web.Controllers;
 
+#pragma warning disable CS1998 // Method lacks 'await' operators
+
 public class HomeController : Controller
 {
     /// <summary>
