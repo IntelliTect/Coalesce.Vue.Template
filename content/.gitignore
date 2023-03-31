@@ -6,6 +6,9 @@
 # vitest coverage results
 coverage/
 
+# https://github.com/antfu/unplugin-vue-components/issues/611
+components.d.ts
+
 # User-specific files
 *.suo
 *.user
