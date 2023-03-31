@@ -54,10 +54,6 @@ const drawer = ref<boolean | null>(null);
   transition: 0.1s ease-out;
 }
 
-.router-transition-move {
-  transition: transform 0.4s;
-}
-
 .router-transition-enter-from,
 .router-transition-leave-to {
   opacity: 0;

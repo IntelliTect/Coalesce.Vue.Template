@@ -20,11 +20,22 @@ import $metadata from "@/metadata.g";
 import "@/viewmodels.g";
 
 // SETUP: vuetify
+const inputDefaults = { density: "compact", variant: "outlined" };
 const vuetify = createVuetify({
   icons: {
     defaultSet: "fa",
     aliases,
     sets: { fa },
+  },
+  defaults: {
+    VTextField: inputDefaults,
+    VTextarea: inputDefaults,
+    VSelect: inputDefaults,
+    VCombobox: inputDefaults,
+    VAutocomplete: inputDefaults,
+    VField: inputDefaults,
+    VInput: inputDefaults,
+    VSwitch: { color: "primary" }, // https://github.com/vuetifyjs/vuetify/issues/16486
   },
   theme: {
     themes: {
