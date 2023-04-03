@@ -26,9 +26,9 @@ namespace Coalesce.Starter.Vue.Web.Api
     public partial class ApplicationUserController
         : BaseApiController<Coalesce.Starter.Vue.Data.Models.ApplicationUser, ApplicationUserDtoGen, Coalesce.Starter.Vue.Data.AppDbContext>
     {
-        public ApplicationUserController(Coalesce.Starter.Vue.Data.AppDbContext db) : base(db)
+        public ApplicationUserController(CrudContext<Coalesce.Starter.Vue.Data.AppDbContext> context) : base(context)
         {
-            GeneratedForClassViewModel = ReflectionRepository.Global.GetClassViewModel<Coalesce.Starter.Vue.Data.Models.ApplicationUser>();
+            GeneratedForClassViewModel = context.ReflectionRepository.GetClassViewModel<Coalesce.Starter.Vue.Data.Models.ApplicationUser>();
         }
 
         [HttpGet("get/{id}")]

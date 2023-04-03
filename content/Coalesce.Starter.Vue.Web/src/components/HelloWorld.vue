@@ -145,6 +145,13 @@
                     </li>
                     <li>
                       <a
+                        href="https://marketplace.visualstudio.com/items?itemName=antfu.goto-alias"
+                      >
+                        Goto definition alias
+                      </a>
+                    </li>
+                    <li>
+                      <a
                         href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
                       >
                         ESLint

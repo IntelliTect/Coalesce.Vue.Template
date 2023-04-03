@@ -6,7 +6,7 @@ import { createVuetify } from "vuetify";
 import $metadata from "@/metadata.g";
 import router from "@/router";
 
-// Shim ResizeObserver, as vuetify's VApp relies on it.
+// Stub ResizeObserver, as vuetify's VApp relies on it.
 global.ResizeObserver ??= class {
   observe() {}
   unobserve() {}
