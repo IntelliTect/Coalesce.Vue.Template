@@ -2,13 +2,14 @@ import { mount, flushPromises, mockEndpoint } from "@/test-utils";
 
 import { VTextField } from "vuetify/components";
 import CoalesceExample from "./CoalesceExample.vue";
+import { ApplicationUser } from "@/models.g";
 
 describe("CoalesceExample.vue", () => {
   it("loads user id 1", async () => {
     // Arrange
     mockEndpoint("/ApplicationUser/get", () => ({
       wasSuccessful: true,
-      object: { applicationUserId: 1, name: "Steve" },
+      object: { applicationUserId: 1, name: "Steve" } as ApplicationUser,
     }));
 
     // Act

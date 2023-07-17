@@ -1,7 +1,8 @@
 import {
   Domain, getEnumMeta, solidify, ModelType, ObjectType,
   PrimitiveProperty, ForeignKeyProperty, PrimaryKeyProperty,
-  ModelCollectionNavigationProperty, ModelReferenceNavigationProperty
+  ModelCollectionNavigationProperty, ModelReferenceNavigationProperty,
+  HiddenAreas, BehaviorFlags
 } from 'coalesce-vue/lib/metadata'
 
 
@@ -13,14 +14,14 @@ export const ApplicationUser = domain.types.ApplicationUser = {
   type: "model",
   controllerRoute: "ApplicationUser",
   get keyProp() { return this.props.applicationUserId }, 
-  behaviorFlags: 7,
+  behaviorFlags: 7 as BehaviorFlags,
   props: {
     applicationUserId: {
       name: "applicationUserId",
       displayName: "Application User Id",
       type: "number",
       role: "primaryKey",
-      hidden: 3,
+      hidden: 3 as HiddenAreas,
     },
     name: {
       name: "name",

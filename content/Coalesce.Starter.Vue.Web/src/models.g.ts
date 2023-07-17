@@ -19,7 +19,7 @@ export class ApplicationUser {
   
   /** Instantiate a new ApplicationUser, optionally basing it on the given data. */
   constructor(data?: Partial<ApplicationUser> | {[k: string]: any}) {
-      Object.assign(this, ApplicationUser.map(data || {}));
+    Object.assign(this, ApplicationUser.map(data || {}));
   }
 }
 
