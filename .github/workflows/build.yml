@@ -60,5 +60,4 @@ jobs:
           mkdir TestLibrary
           Push-Location TestLibrary
           dotnet new coalescevue
-          dotnet test
-          dotnet pack --configuration Release -o ./NuGet
+          dotnet publish
