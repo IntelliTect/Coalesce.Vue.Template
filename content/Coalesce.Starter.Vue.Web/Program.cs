@@ -56,8 +56,6 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 
 #endregion
 
-
-
 #region Configure HTTP Pipeline
 
 var app = builder.Build();
@@ -78,7 +76,7 @@ if (app.Environment.IsDevelopment())
     // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
     app.Use(async (context, next) =>
     {
-        Claim[] claims = new[] { new Claim(ClaimTypes.Name, "developmentuser") };
+        Claim[] claims = [new Claim(ClaimTypes.Name, "developmentuser")];
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
@@ -91,14 +89,13 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-var containsFileHashRegex = new Regex(@"\.[0-9a-fA-F]{8}\.[^\.]*$", RegexOptions.Compiled);
 app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
     {
         // vite puts 8-hex-char hashes before the file extension.
         // Use this to determine if we can send a long-term cache duration.
-        if (containsFileHashRegex.IsMatch(ctx.File.Name))
+        if (ContainsFileHash().IsMatch(ctx.File.Name))
         {
             ctx.Context.Response.GetTypedHeaders().CacheControl =
                 new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromDays(30) };
@@ -125,8 +122,6 @@ app.MapFallbackToController("Index", "Home");
 
 #endregion
 
-
-
 #region Launch
 
 // Initialize/migrate database.
@@ -140,5 +135,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+partial class Program
+{
+    [GeneratedRegex("\\.[0-9a-fA-F]{8}\\.[^\\.]*$", RegexOptions.Compiled)]
+    private static partial Regex ContainsFileHash();
+}
 
 #endregion
