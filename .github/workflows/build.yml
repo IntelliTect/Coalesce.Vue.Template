@@ -1,0 +1,64 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+    # Sequence of patterns matched against refs/tags
+    paths-ignore:
+      - 'README.md'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+env:
+  DOTNET_VERSION: 8.x
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Build
+      run: dotnet pack --configuration Release -o . 
+    
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: NuGet
+        path: ${{ github.workspace }}/*.nupkg
+
+  test-coalesce-vue-template:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download NuGet Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: NuGet
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Test Template
+        run: |
+          dotnet new install $(Get-ChildItem -Path "IntelliTect.Coalesce.Vue.Template.*.nupkg").Name
+          mkdir TestLibrary
+          Push-Location TestLibrary
+          dotnet new coalescevue
+          dotnet test
+          dotnet pack --configuration Release -o ./NuGet
