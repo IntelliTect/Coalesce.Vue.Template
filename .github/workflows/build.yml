@@ -31,7 +31,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Build
-      run: dotnet pack --configuration Release -o . 
+      run: nuget pack IntelliTect.Coalesce.Vue.Template.nuspec -NoDefaultExcludes
     
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
