@@ -89,16 +89,17 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+var containsFileHashRegex = new Regex(@"\.[0-9a-fA-F]{8}\.[^\.]*$", RegexOptions.Compiled);
 app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
     {
         // vite puts 8-hex-char hashes before the file extension.
         // Use this to determine if we can send a long-term cache duration.
-        if (ContainsFileHash().IsMatch(ctx.File.Name))
+        if (containsFileHashRegex.IsMatch(ctx.File.Name))
         {
             ctx.Context.Response.GetTypedHeaders().CacheControl =
-                new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromDays(30) };
+                new() { Public = true, MaxAge = TimeSpan.FromDays(30) };
         }
     }
 });
@@ -108,7 +109,7 @@ app.UseStaticFiles(new StaticFileOptions
 app.Use(async (context, next) =>
 {
     context.Response.GetTypedHeaders().CacheControl =
-        new CacheControlHeaderValue { NoCache = true, NoStore = true, };
+        new() { NoCache = true, NoStore = true, };
 
     await next();
 });
@@ -135,11 +136,4 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
-
-partial class Program
-{
-    [GeneratedRegex("\\.[0-9a-fA-F]{8}\\.[^\\.]*$", RegexOptions.Compiled)]
-    private static partial Regex ContainsFileHash();
-}
-
 #endregion
