@@ -56,8 +56,6 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 
 #endregion
 
-
-
 #region Configure HTTP Pipeline
 
 var app = builder.Build();
@@ -78,7 +76,7 @@ if (app.Environment.IsDevelopment())
     // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
     app.Use(async (context, next) =>
     {
-        Claim[] claims = new[] { new Claim(ClaimTypes.Name, "developmentuser") };
+        Claim[] claims = [new Claim(ClaimTypes.Name, "developmentuser")];
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
@@ -101,7 +99,7 @@ app.UseStaticFiles(new StaticFileOptions
         if (containsFileHashRegex.IsMatch(ctx.File.Name))
         {
             ctx.Context.Response.GetTypedHeaders().CacheControl =
-                new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromDays(30) };
+                new() { Public = true, MaxAge = TimeSpan.FromDays(30) };
         }
     }
 });
@@ -111,7 +109,7 @@ app.UseStaticFiles(new StaticFileOptions
 app.Use(async (context, next) =>
 {
     context.Response.GetTypedHeaders().CacheControl =
-        new CacheControlHeaderValue { NoCache = true, NoStore = true, };
+        new() { NoCache = true, NoStore = true, };
 
     await next();
 });
@@ -124,8 +122,6 @@ app.Map("/api/{**any}", () => Results.NotFound());
 app.MapFallbackToController("Index", "Home");
 
 #endregion
-
-
 
 #region Launch
 
@@ -140,5 +136,4 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
-
 #endregion
