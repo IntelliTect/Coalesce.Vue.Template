@@ -10,5 +10,23 @@
     "type":"project"
   },
   "sourceName": "Coalesce.Starter.Vue",              
-  "preferNameDirectory": true
+  "preferNameDirectory": true,
+  "symbols": {
+    "KestrelPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "fallback": 5001
+      },
+      "replaces": "5001"
+    },
+    "VitePortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "fallback": 5002
+      },
+      "replaces": "5002"
+    }
+  }
 }

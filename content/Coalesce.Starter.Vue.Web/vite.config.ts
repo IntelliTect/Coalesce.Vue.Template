@@ -37,7 +37,7 @@ export default defineConfig(async () => {
       // Vuetify3Resolver could be removed and replaced by vite-plugin-vuetify if desired.
       createVueComponentImporterPlugin({
         resolvers: [Vuetify3Resolver(), CoalesceVuetifyResolver()],
-        dts: "src/types/components.d.ts"
+        dts: "src/types/components.d.ts",
       }),
 
       // Auto-import vue composition API functions,
@@ -45,7 +45,7 @@ export default defineConfig(async () => {
       createAutoImport({
         imports: ["vue", "vue-router"],
         dirs: ["src/composables/*"],
-        dts: "src/types/auto-imports.d.ts"
+        dts: "src/types/auto-imports.d.ts",
       }),
     ],
 
@@ -59,7 +59,10 @@ export default defineConfig(async () => {
     test: {
       globals: true,
       environment: "jsdom",
-      coverage: { exclude: ["**/*.g.ts", "**/*.spec.*", "test{,s}/**"] },
+      coverage: {
+        provider: "v8",
+        exclude: ["**/*.g.ts", "**/*.spec.*", "test{,s}/**"],
+      },
       deps: { inline: [/vuetify/] },
     },
   };

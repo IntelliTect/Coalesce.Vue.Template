@@ -10,26 +10,17 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer">
       <v-list>
-        <v-list-item link to="/">
-          <template #prepend>
-            <v-icon>fas fa-home</v-icon>
-          </template>
-          <v-list-item-title>Home</v-list-item-title>
-        </v-list-item>
-
-        <v-list-item link to="/coalesce-example">
-          <template #prepend>
-            <v-icon>fas fa-palette</v-icon>
-          </template>
-          <v-list-item-title>Custom Page Example</v-list-item-title>
-        </v-list-item>
-
-        <v-list-item link to="/admin">
-          <template #prepend>
-            <v-icon>fas fa-cogs</v-icon>
-          </template>
-          <v-list-item-title>Admin Pages</v-list-item-title>
-        </v-list-item>
+        <v-list-item to="/" prepend-icon="fas fa-home" title="Home" />
+        <v-list-item
+          to="/coalesce-example"
+          prepend-icon="fas fa-palette"
+          title="Custom Page Example"
+        />
+        <v-list-item
+          to="/admin"
+          prepend-icon="fas fa-cogs"
+          title="Admin Pages"
+        />
       </v-list>
     </v-navigation-drawer>
 

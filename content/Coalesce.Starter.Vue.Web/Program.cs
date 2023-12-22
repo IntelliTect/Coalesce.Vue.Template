@@ -98,8 +98,7 @@ app.UseStaticFiles(new StaticFileOptions
         // Use this to determine if we can send a long-term cache duration.
         if (containsFileHashRegex.IsMatch(ctx.File.Name))
         {
-            ctx.Context.Response.GetTypedHeaders().CacheControl =
-                new() { Public = true, MaxAge = TimeSpan.FromDays(30) };
+            ctx.Context.Response.GetTypedHeaders().CacheControl = new() { Public = true, MaxAge = TimeSpan.FromDays(30) };
         }
     }
 });
@@ -108,13 +107,11 @@ app.UseStaticFiles(new StaticFileOptions
 // Individual endpoints may override this.
 app.Use(async (context, next) =>
 {
-    context.Response.GetTypedHeaders().CacheControl =
-        new() { NoCache = true, NoStore = true, };
-
+    context.Response.GetTypedHeaders().CacheControl = new() { NoCache = true, NoStore = true };
     await next();
 });
 
-app.MapControllers();
+app.MapDefaultControllerRoute();
 
 // API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
 app.Map("/api/{**any}", () => Results.NotFound());

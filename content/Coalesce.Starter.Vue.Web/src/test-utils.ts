@@ -32,7 +32,7 @@ const mountComponent = function (
     global: {
       plugins: [vuetify, coalesceVuetify, router],
     },
-  });
+  } as ArgumentsType<typeof mount>[1]);
 } as typeof mount;
 
 export { nextTick } from "vue";

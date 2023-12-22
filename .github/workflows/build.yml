@@ -31,7 +31,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Build
-      run: nuget pack IntelliTect.Coalesce.Vue.Template.nuspec -NoDefaultExcludes
+      run: dotnet pack
     
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
@@ -60,4 +60,8 @@ jobs:
           mkdir TestLibrary
           Push-Location TestLibrary
           dotnet new coalescevue
+          cd TestLibrary.Web
+          npm ci
+          npm test
+          npm run build
           dotnet publish

@@ -37,7 +37,7 @@ export default createRouter({
 });
 
 /** Creates a wrapper component that will pull page title from the
- *  coalesce admin page component and pass to to `useTitle`.
+ *  coalesce admin page component and pass it to `useTitle`.
  */
 function titledAdminPage<
   T extends typeof CAdminTablePage | typeof CAdminEditorPage
