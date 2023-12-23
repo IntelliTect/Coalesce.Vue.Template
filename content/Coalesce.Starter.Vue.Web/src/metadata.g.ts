@@ -7,18 +7,40 @@ import {
 
 
 const domain: Domain = { enums: {}, types: {}, services: {} }
-export const ApplicationUser = domain.types.ApplicationUser = {
-  name: "ApplicationUser",
-  displayName: "Application User",
+export const WidgetCategory = domain.enums.WidgetCategory = {
+  name: "WidgetCategory",
+  displayName: "Widget Category",
+  type: "enum",
+  ...getEnumMeta<"Whizbangs"|"Sprecklesprockets"|"Discombobulators">([
+  {
+    value: 0,
+    strValue: "Whizbangs",
+    displayName: "Whizbangs",
+  },
+  {
+    value: 1,
+    strValue: "Sprecklesprockets",
+    displayName: "Sprecklesprockets",
+  },
+  {
+    value: 2,
+    strValue: "Discombobulators",
+    displayName: "Discombobulators",
+  },
+  ]),
+}
+export const Widget = domain.types.Widget = {
+  name: "Widget",
+  displayName: "Widget",
   get displayProp() { return this.props.name }, 
   type: "model",
-  controllerRoute: "ApplicationUser",
-  get keyProp() { return this.props.applicationUserId }, 
+  controllerRoute: "Widget",
+  get keyProp() { return this.props.widgetId }, 
   behaviorFlags: 7 as BehaviorFlags,
   props: {
-    applicationUserId: {
-      name: "applicationUserId",
-      displayName: "Application User Id",
+    widgetId: {
+      name: "widgetId",
+      displayName: "Widget Id",
       type: "number",
       role: "primaryKey",
       hidden: 3 as HiddenAreas,
@@ -32,6 +54,23 @@ export const ApplicationUser = domain.types.ApplicationUser = {
         required: val => (val != null && val !== '') || "Name is required.",
       }
     },
+    category: {
+      name: "category",
+      displayName: "Category",
+      type: "enum",
+      get typeDef() { return domain.enums.WidgetCategory },
+      role: "value",
+      rules: {
+        required: val => val != null || "Category is required.",
+      }
+    },
+    inventedOn: {
+      name: "inventedOn",
+      displayName: "Invented On",
+      type: "date",
+      dateKind: "datetime",
+      role: "value",
+    },
   },
   methods: {
   },
@@ -41,9 +80,10 @@ export const ApplicationUser = domain.types.ApplicationUser = {
 
 interface AppDomain extends Domain {
   enums: {
+    WidgetCategory: typeof WidgetCategory
   }
   types: {
-    ApplicationUser: typeof ApplicationUser
+    Widget: typeof Widget
   }
   services: {
   }

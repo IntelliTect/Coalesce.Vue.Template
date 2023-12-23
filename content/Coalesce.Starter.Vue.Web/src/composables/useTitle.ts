@@ -15,24 +15,27 @@ export function useTitle(
   title:
     | string
     | (string | null | undefined)[]
-    | (() => string | null | undefined | (string | null | undefined)[])
+    | (() => string | null | undefined | (string | null | undefined)[]),
 ) {
-  if (!title) title = "";
+  onBeforeMount(() => {
+    if (!title) title = "";
 
-  if (typeof title == "string" || Array.isArray(title)) {
-    const nonFnTitle = title;
-    title = () => nonFnTitle;
-  }
-  return watch(
-    title,
-    (newTitle) => {
-      document.title = [
-        ...(Array.isArray(newTitle) ? newTitle : [newTitle]),
-        titlePostfix,
-      ]
-        .filter((t) => t)
-        .join(titleSeparator);
-    },
-    { immediate: true, deep: true }
-  );
+    if (typeof title == "string" || Array.isArray(title)) {
+      const nonFnTitle = title;
+      title = () => nonFnTitle;
+    }
+
+    watch(
+      title,
+      (newTitle) => {
+        document.title = [
+          ...(Array.isArray(newTitle) ? newTitle : [newTitle]),
+          titlePostfix,
+        ]
+          .filter((t) => t)
+          .join(titleSeparator);
+      },
+      { immediate: true, deep: true },
+    );
+  });
 }

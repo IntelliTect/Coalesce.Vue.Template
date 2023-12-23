@@ -1,6 +1,6 @@
 <template>
   <v-app id="vue-app">
-    <v-app-bar color="primary">
+    <v-app-bar color="primary" density="compact">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         <router-link to="/" style="color: inherit">
@@ -12,7 +12,7 @@
       <v-list>
         <v-list-item to="/" prepend-icon="fas fa-home" title="Home" />
         <v-list-item
-          to="/coalesce-example"
+          to="/widget"
           prepend-icon="fas fa-palette"
           title="Custom Page Example"
         />

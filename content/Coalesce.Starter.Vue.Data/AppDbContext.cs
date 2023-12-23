@@ -6,15 +6,11 @@ namespace Coalesce.Starter.Vue.Data;
 [Coalesce]
 public class AppDbContext : DbContext
 {
-    public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
+    public DbSet<Widget> Widgets => Set<Widget>();
 
-    public AppDbContext()
-    {
-    }
+    public AppDbContext() { }
 
-    public AppDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    public AppDbContext(DbContextOptions options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

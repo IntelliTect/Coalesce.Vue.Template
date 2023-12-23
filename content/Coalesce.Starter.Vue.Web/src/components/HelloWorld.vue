@@ -6,7 +6,7 @@
           <v-card-title>
             {{ msg }}
           </v-card-title>
-          <v-card-text class="black--text">
+          <v-card-text>
             <v-row
               style="max-width: 500px"
               class="mx-auto"
@@ -80,7 +80,7 @@
               </li>
               <li>
                 <b>Check out the other pages</b> in the sidebar for
-                <router-link to="/coalesce-example">examples</router-link> and
+                <router-link to="/widget">examples</router-link> and
                 <router-link to="/admin">admin page links</router-link>!
               </li>
             </ol>
@@ -209,7 +209,7 @@
       <v-col cols="12" md="4">
         <v-card>
           <v-card-title> Quick Links </v-card-title>
-          <v-card-text class="black--text">
+          <v-card-text>
             <h2 class="headline font-weight-light mb-3">Documentation</h2>
             <ul>
               <li>

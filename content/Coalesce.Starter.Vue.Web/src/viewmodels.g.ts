@@ -3,31 +3,33 @@ import * as $models from './models.g'
 import * as $apiClients from './api-clients.g'
 import { ViewModel, ListViewModel, ServiceViewModel, DeepPartial, defineProps } from 'coalesce-vue/lib/viewmodel'
 
-export interface ApplicationUserViewModel extends $models.ApplicationUser {
-  applicationUserId: number | null;
+export interface WidgetViewModel extends $models.Widget {
+  widgetId: number | null;
   name: string | null;
+  category: $models.WidgetCategory | null;
+  inventedOn: Date | null;
 }
-export class ApplicationUserViewModel extends ViewModel<$models.ApplicationUser, $apiClients.ApplicationUserApiClient, number> implements $models.ApplicationUser  {
+export class WidgetViewModel extends ViewModel<$models.Widget, $apiClients.WidgetApiClient, number> implements $models.Widget  {
   
-  constructor(initialData?: DeepPartial<$models.ApplicationUser> | null) {
-    super($metadata.ApplicationUser, new $apiClients.ApplicationUserApiClient(), initialData)
+  constructor(initialData?: DeepPartial<$models.Widget> | null) {
+    super($metadata.Widget, new $apiClients.WidgetApiClient(), initialData)
   }
 }
-defineProps(ApplicationUserViewModel, $metadata.ApplicationUser)
+defineProps(WidgetViewModel, $metadata.Widget)
 
-export class ApplicationUserListViewModel extends ListViewModel<$models.ApplicationUser, $apiClients.ApplicationUserApiClient, ApplicationUserViewModel> {
+export class WidgetListViewModel extends ListViewModel<$models.Widget, $apiClients.WidgetApiClient, WidgetViewModel> {
   
   constructor() {
-    super($metadata.ApplicationUser, new $apiClients.ApplicationUserApiClient())
+    super($metadata.Widget, new $apiClients.WidgetApiClient())
   }
 }
 
 
 const viewModelTypeLookup = ViewModel.typeLookup = {
-  ApplicationUser: ApplicationUserViewModel,
+  Widget: WidgetViewModel,
 }
 const listViewModelTypeLookup = ListViewModel.typeLookup = {
-  ApplicationUser: ApplicationUserListViewModel,
+  Widget: WidgetListViewModel,
 }
 const serviceViewModelTypeLookup = ServiceViewModel.typeLookup = {
 }

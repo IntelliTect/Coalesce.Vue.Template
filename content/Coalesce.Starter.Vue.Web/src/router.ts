@@ -10,9 +10,10 @@ export default createRouter({
       component: () => import("./views/Home.vue"),
     },
     {
-      path: "/coalesce-example",
-      name: "coalesce-example",
-      component: () => import("./views/CoalesceExample.vue"),
+      path: "/widget/:id(\\d+)?",
+      name: "widget-edit",
+      component: () => import("./views/WidgetEdit.vue"),
+      props: r => ({ id: +r.params.id }),
     },
     {
       path: "/admin",

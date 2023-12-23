@@ -21,51 +21,51 @@ using System.Threading.Tasks;
 
 namespace Coalesce.Starter.Vue.Web.Api
 {
-    [Route("api/ApplicationUser")]
+    [Route("api/Widget")]
     [Authorize]
     [ServiceFilter(typeof(IApiActionFilter))]
-    public partial class ApplicationUserController
-        : BaseApiController<Coalesce.Starter.Vue.Data.Models.ApplicationUser, ApplicationUserDtoGen, Coalesce.Starter.Vue.Data.AppDbContext>
+    public partial class WidgetController
+        : BaseApiController<Coalesce.Starter.Vue.Data.Models.Widget, WidgetDtoGen, Coalesce.Starter.Vue.Data.AppDbContext>
     {
-        public ApplicationUserController(CrudContext<Coalesce.Starter.Vue.Data.AppDbContext> context) : base(context)
+        public WidgetController(CrudContext<Coalesce.Starter.Vue.Data.AppDbContext> context) : base(context)
         {
-            GeneratedForClassViewModel = context.ReflectionRepository.GetClassViewModel<Coalesce.Starter.Vue.Data.Models.ApplicationUser>();
+            GeneratedForClassViewModel = context.ReflectionRepository.GetClassViewModel<Coalesce.Starter.Vue.Data.Models.Widget>();
         }
 
         [HttpGet("get/{id}")]
         [Authorize]
-        public virtual Task<ItemResult<ApplicationUserDtoGen>> Get(
+        public virtual Task<ItemResult<WidgetDtoGen>> Get(
             int id,
             DataSourceParameters parameters,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource)
+            IDataSource<Coalesce.Starter.Vue.Data.Models.Widget> dataSource)
             => GetImplementation(id, parameters, dataSource);
 
         [HttpGet("list")]
         [Authorize]
-        public virtual Task<ListResult<ApplicationUserDtoGen>> List(
+        public virtual Task<ListResult<WidgetDtoGen>> List(
             ListParameters parameters,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource)
+            IDataSource<Coalesce.Starter.Vue.Data.Models.Widget> dataSource)
             => ListImplementation(parameters, dataSource);
 
         [HttpGet("count")]
         [Authorize]
         public virtual Task<ItemResult<int>> Count(
             FilterParameters parameters,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource)
+            IDataSource<Coalesce.Starter.Vue.Data.Models.Widget> dataSource)
             => CountImplementation(parameters, dataSource);
 
         [HttpPost("save")]
         [Authorize]
-        public virtual Task<ItemResult<ApplicationUserDtoGen>> Save(
-            [FromForm] ApplicationUserDtoGen dto,
+        public virtual Task<ItemResult<WidgetDtoGen>> Save(
+            [FromForm] WidgetDtoGen dto,
             [FromQuery] DataSourceParameters parameters,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource,
-            IBehaviors<Coalesce.Starter.Vue.Data.Models.ApplicationUser> behaviors)
+            IDataSource<Coalesce.Starter.Vue.Data.Models.Widget> dataSource,
+            IBehaviors<Coalesce.Starter.Vue.Data.Models.Widget> behaviors)
             => SaveImplementation(dto, parameters, dataSource, behaviors);
 
         [HttpPost("bulkSave")]
         [Authorize]
-        public virtual Task<ItemResult<ApplicationUserDtoGen>> BulkSave(
+        public virtual Task<ItemResult<WidgetDtoGen>> BulkSave(
             [FromBody] BulkSaveRequest dto,
             [FromQuery] DataSourceParameters parameters,
             [FromServices] IDataSourceFactory dataSourceFactory,
@@ -74,10 +74,10 @@ namespace Coalesce.Starter.Vue.Web.Api
 
         [HttpPost("delete/{id}")]
         [Authorize]
-        public virtual Task<ItemResult<ApplicationUserDtoGen>> Delete(
+        public virtual Task<ItemResult<WidgetDtoGen>> Delete(
             int id,
-            IBehaviors<Coalesce.Starter.Vue.Data.Models.ApplicationUser> behaviors,
-            IDataSource<Coalesce.Starter.Vue.Data.Models.ApplicationUser> dataSource)
+            IBehaviors<Coalesce.Starter.Vue.Data.Models.Widget> behaviors,
+            IDataSource<Coalesce.Starter.Vue.Data.Models.Widget> dataSource)
             => DeleteImplementation(id, new DataSourceParameters(), dataSource, behaviors);
     }
 }

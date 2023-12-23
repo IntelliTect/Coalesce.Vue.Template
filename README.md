@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/IntelliTect/Coalesce/dev/docs/public/coalesce-icon-color.svg" style="height: 3ex; vertical-align: middle; padding-bottom: .35ex"> Coalesce Vue Template
+# <img src="https://raw.githubusercontent.com/IntelliTect/Coalesce/dev/docs/public/coalesce-icon-color.svg" style="height: 1em;"> Coalesce Vue Template
 
 
 This template will set up a new Coalesce Vue solution which you can build your app upon.

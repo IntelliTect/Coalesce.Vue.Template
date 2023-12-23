@@ -63,7 +63,11 @@ export default defineConfig(async () => {
         provider: "v8",
         exclude: ["**/*.g.ts", "**/*.spec.*", "test{,s}/**"],
       },
-      deps: { inline: [/vuetify/] },
+      server: {
+        deps: {
+          inline: [/vuetify/],
+        },
+      },
     },
   };
 });
