@@ -78,8 +78,8 @@ if (app.Environment.IsDevelopment())
     {
         Claim[] claims = [new Claim(ClaimTypes.Name, "developmentuser")];
 
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
+        var identity = new ClaimsIdentity(claims, "dummy-auth");
+        context.User = new ClaimsPrincipal(identity);
 
         await next.Invoke();
     });
@@ -89,7 +89,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-var containsFileHashRegex = new Regex(@"\.[0-9a-fA-F]{8}\.[^\.]*$", RegexOptions.Compiled);
+var containsFileHashRegex = new Regex(@"[.-][0-9a-zA-Z-_]{8}\.[^\.]*$", RegexOptions.Compiled);
 app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
