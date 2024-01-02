@@ -17,12 +17,12 @@
     "coalesce-vue": "4.0.0-alpha.20231221.1",
     "coalesce-vue-vuetify3": "4.0.0-alpha.20231221.1",
     "typeface-roboto": "1.1.13",
-    "vue": "^3.3.13",
+    "vue": "^3.4.3",
     "vue-router": "^4.2.5",
     "vuetify": "^3.4.8"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.5.2",
+    "@vitejs/plugin-vue": "^5.0.2",
     "@vitest/coverage-v8": "^1.1.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/eslint-config-prettier": "8.0.0",

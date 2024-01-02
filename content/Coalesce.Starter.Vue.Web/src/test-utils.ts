@@ -6,13 +6,6 @@ import { createVuetify } from "vuetify";
 import $metadata from "@/metadata.g";
 import router from "@/router";
 
-// Stub ResizeObserver, as vuetify's VApp relies on it.
-global.ResizeObserver ??= class {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-};
-
 // Automatically teardown components after each test. Especially necessary
 // with Vuetify, which will attach dialogs and such to document.body.
 enableAutoUnmount(afterEach);
