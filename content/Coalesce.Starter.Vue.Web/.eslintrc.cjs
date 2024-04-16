@@ -16,6 +16,16 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-console": "off",
     "no-undef": "off", // Redundant with Typescript
+
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        varsIgnorePattern:
+          // Allow unused `const props = defineProps` (if props are only used in the template of an SFC)
+          "props",
+        args: "none"
+      },
+    ],
   },
   ignorePatterns: ["wwwroot", "node_modules", "/**/*.g.ts"],
 };
