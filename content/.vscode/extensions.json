@@ -7,7 +7,6 @@
     "streetsidesoftware.code-spell-checker",
     "dbaeumer.vscode-eslint",
     "vue.volar",
-    "vue.vscode-typescript-vue-plugin",
     "esbenp.prettier-vscode",
     "antfu.goto-alias"
   ],

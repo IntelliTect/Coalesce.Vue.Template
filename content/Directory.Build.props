@@ -7,5 +7,7 @@
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>4.9</TypeScriptToolsVersion>
+
+    <CoalesceVersion>4.0.0-alpha.20240502.1</CoalesceVersion>
   </PropertyGroup>
 </Project>

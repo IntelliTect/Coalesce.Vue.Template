@@ -16,5 +16,4 @@ public enum WidgetCategory
 	Whizbangs,
 	Sprecklesprockets,
 	Discombobulators,
-	
 }

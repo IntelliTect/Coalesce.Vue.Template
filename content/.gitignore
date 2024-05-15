@@ -9,6 +9,9 @@ coverage/
 # https://github.com/antfu/unplugin-vue-components/issues/611
 components.d.ts
 
+# Vite temporary compiled config files.
+vite.config.ts.timestamp*
+
 # User-specific files
 *.suo
 *.user

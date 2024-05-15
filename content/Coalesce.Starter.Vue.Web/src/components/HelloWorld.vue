@@ -128,20 +128,8 @@
                       <a
                         href="https://marketplace.visualstudio.com/items?itemName=Vue.volar"
                       >
-                        Vue Language Features (Volar)
+                        Vue - Official
                       </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin"
-                      >
-                        TypeScript Vue Plugin (Volar)
-                      </a>
-                      (alternatively, use Volar
-                      <a
-                        href="https://vuejs.org/guide/typescript/overview.html#volar-takeover-mode"
-                        >takeover mode</a
-                      >)
                     </li>
                     <li>
                       <a
