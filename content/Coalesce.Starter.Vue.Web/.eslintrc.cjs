@@ -7,12 +7,21 @@ module.exports = {
     "plugin:vue/vue3-essential",
     "eslint:recommended",
     "@vue/eslint-config-typescript",
+    "@vue/eslint-config-prettier",
   ],
   parserOptions: {
     ecmaVersion: "latest",
   },
   rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
+
     "vue/multi-word-component-names": "off",
+    "prefer-const": "error",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-console": "off",
     "no-undef": "off", // Redundant with Typescript
@@ -23,7 +32,7 @@ module.exports = {
         varsIgnorePattern:
           // Allow unused `const props = defineProps` (if props are only used in the template of an SFC)
           "props",
-        args: "none"
+        args: "none",
       },
     ],
   },

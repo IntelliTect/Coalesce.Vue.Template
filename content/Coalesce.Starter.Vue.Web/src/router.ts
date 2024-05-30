@@ -13,7 +13,7 @@ export default createRouter({
       path: "/widget/:id(\\d+)?",
       name: "widget-edit",
       component: () => import("./views/WidgetEdit.vue"),
-      props: r => ({ id: +r.params.id }),
+      props: (r) => ({ id: +r.params.id }),
     },
     {
       path: "/admin",
@@ -41,7 +41,7 @@ export default createRouter({
  *  coalesce admin page component and pass it to `useTitle`.
  */
 function titledAdminPage<
-  T extends typeof CAdminTablePage | typeof CAdminEditorPage
+  T extends typeof CAdminTablePage | typeof CAdminEditorPage,
 >(component: T) {
   return defineComponent({
     setup() {

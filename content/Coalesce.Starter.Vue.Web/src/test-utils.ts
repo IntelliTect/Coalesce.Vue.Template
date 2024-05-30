@@ -17,7 +17,7 @@ const coalesceVuetify = createCoalesceVuetify({
 
 const mountComponent = function (
   component: ArgumentsType<typeof mount>[0],
-  options: ArgumentsType<typeof mount>[1]
+  options: ArgumentsType<typeof mount>[1],
 ) {
   return mount(component, {
     ...options,

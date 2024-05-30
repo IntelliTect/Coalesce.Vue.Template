@@ -32,6 +32,6 @@
 import $metadata from "@/metadata.g";
 
 const adminTypes = Object.values($metadata.types).filter(
-  (t) => t.type == "model"
+  (t) => t.type == "model",
 );
 </script>
