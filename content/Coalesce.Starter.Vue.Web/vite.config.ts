@@ -17,7 +17,6 @@ export default defineConfig(async () => {
       rollupOptions: {
         output: {
           manualChunks(id) {
-            if (id.match(/home/i)) return "index";
             if (id.match(/views/)) return "views";
             if (id.match(/vuetify/)) return "vuetify";
             if (id.match(/node_modules/)) return "vendor";
