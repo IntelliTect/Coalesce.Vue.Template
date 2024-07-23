@@ -12,4 +12,12 @@ a {
 .v-input__details {
   align-items: normal;
   padding-top: 3px;
+  overflow: visible;
+}
+
+.v-icon {
+  // Vuetify v-icon expects to be inline-flex,
+  // but fontawesome defaults to inline-block through this var.
+  // Without setting this, icons appearance will very with CSS load order
+  --fa-display: inline-flex;
 }
