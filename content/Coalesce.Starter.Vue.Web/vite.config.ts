@@ -17,6 +17,13 @@ export default defineConfig(async () => {
       rollupOptions: {
         output: {
           manualChunks(id) {
+            // Chunk all styles together so that there aren't problems
+            // with selectors getting reordered, which alters specificity.
+            if (/\.s?css|type=style/.test(id)) return "styles";
+
+            // Workers can't be chunked with other things
+            if (id.includes("worker")) return undefined;
+
             if (id.match(/views/)) return "views";
             if (id.match(/vuetify/)) return "vuetify";
             if (id.match(/node_modules/)) return "vendor";
